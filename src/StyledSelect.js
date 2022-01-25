@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -16,7 +16,6 @@ const StyledSelect = props => {
 		meta,
 		onValueChange,
 		enabled = true,
-		selectedValue,
 		width,
 		input,
 		rest,
@@ -29,6 +28,8 @@ const StyledSelect = props => {
 		placeholder,
 		noPlaceholder
 	} = props;
+
+	const [selected, setSelected] = useState(value);
 
 	const RNPickerWrapper = {
 		fontFamily: 'DMSans-Regular',
@@ -107,9 +108,9 @@ const StyledSelect = props => {
 						  }
 				}
 				placeholderTextColor={placeholderColor}
-				selectedValue={selectedValue}
-				value={value}
-				onValueChange={onValueChange}
+				value={selected}
+				onValueChange={value => setSelected(value)}
+				onDonePress={() => onValueChange(selected)}
 				style={{
 					placeholder: {
 						color: placeholderColor
@@ -141,7 +142,6 @@ StyledSelect.propTypes = {
 	meta: PropTypes.any,
 	onValueChange: PropTypes.func.isRequired,
 	enabled: PropTypes.bool,
-	selectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	input: PropTypes.any,
 	rest: PropTypes.any,
