@@ -1,6 +1,6 @@
 {
 	"name": "react-native-panda-ui",
-	"version": "0.1.376",
+	"version": "0.1.377",
 	"description": "A set of easily styled components to get you started fast",
 	"main": "src/index.js",
 	"files": [
