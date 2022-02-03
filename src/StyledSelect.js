@@ -15,6 +15,7 @@ const StyledSelect = props => {
 		value,
 		meta,
 		onValueChange,
+		enableActionOnValueChange,
 		enabled = true,
 		width,
 		input,
@@ -113,7 +114,7 @@ const StyledSelect = props => {
 				}
 				placeholderTextColor={placeholderColor}
 				value={selected}
-				onValueChange={value => setSelected(value)}
+				onValueChange={value => (enableActionOnValueChange ? onValueChange(value) : setSelected(value))}
 				onDonePress={() => onValueChange(selected)}
 				style={{
 					placeholder: {
@@ -145,6 +146,7 @@ StyledSelect.propTypes = {
 	value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	meta: PropTypes.any,
 	onValueChange: PropTypes.func.isRequired,
+	enableActionOnValueChange: PropTypes.bool,
 	enabled: PropTypes.bool,
 	width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	input: PropTypes.any,
