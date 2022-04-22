@@ -37,6 +37,11 @@ const StyledSelect = props => {
 		setSelected(value);
 	}, [value]);
 
+	const performActionOnValueChange = value => {
+		onValueChange(value);
+		setSelected(value);
+	};
+
 	const RNPickerWrapper = {
 		fontFamily: 'DMSans-Regular',
 		borderBottomWidth: separatorColor ? 1 : 0,
@@ -116,7 +121,7 @@ const StyledSelect = props => {
 				}
 				placeholderTextColor={placeholderColor}
 				value={selected}
-				onValueChange={value => (enableActionOnValueChange ? onValueChange(value) : setSelected(value))}
+				onValueChange={value => (enableActionOnValueChange ? performActionOnValueChange(value) : setSelected(value))}
 				onDonePress={() => onValueChange(selected)}
 				style={{
 					placeholder: {
