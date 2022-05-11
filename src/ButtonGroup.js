@@ -12,7 +12,8 @@ function ButtonGroup(props) {
 		selectIndex,
 		labelColor,
 		labelColorSelected,
-		labelSize
+		labelSize,
+		buttonWidth
 	} = props;
 
 	const lastIndex = buttonLabels.length - 1;
@@ -38,16 +39,21 @@ function ButtonGroup(props) {
 					style={[
 						styles.buttonContainer,
 						buttonSeparator,
+						{ width: buttonWidth || 'auto' },
 						(index === 0 || selectedIndex === index) && styles.buttonRadiusLeft,
 						(lastIndex === index || selectedIndex === index) && styles.buttonRadiusRight,
 						selectedIndex === index && { height: 30, backgroundColor: buttonGroupSelectedBackgroundColor || 'pink' }
 					]}
 					onPress={() => onSelect(index)}
 				>
-					<Text style={{
-						fontSize: labelSize || 14,
-						color: textColor || 'black'
-					}}>{labelValue.label}</Text>
+					<Text
+						style={{
+							fontSize: labelSize || 14,
+							color: textColor || 'black'
+						}}
+					>
+						{labelValue.label}
+					</Text>
 				</TouchableOpacity>
 			);
 		});
@@ -55,7 +61,7 @@ function ButtonGroup(props) {
 
 	const onSelect = index => {
 		selectIndex(index);
-	}
+	};
 
 	return (
 		<View
@@ -84,13 +90,13 @@ const styles = StyleSheet.create({
 		justifyContent: 'center'
 	},
 	buttonRadiusLeft: {
-    borderTopLeftRadius: 7,
-    borderBottomLeftRadius: 7
-  },
+		borderTopLeftRadius: 7,
+		borderBottomLeftRadius: 7
+	},
 	buttonRadiusRight: {
-    borderTopRightRadius: 7,
-    borderBottomRightRadius: 7
-  }
+		borderTopRightRadius: 7,
+		borderBottomRightRadius: 7
+	}
 });
 
 ButtonGroup.propTypes = {
@@ -102,6 +108,7 @@ ButtonGroup.propTypes = {
 	buttonLabels: PropTypes.array,
 	labelColor: PropTypes.string,
 	labelSize: PropTypes.number,
+	buttonWidth: PropTypes.number
 };
 
 export default ButtonGroup;
