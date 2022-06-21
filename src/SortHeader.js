@@ -154,16 +154,17 @@ const SortHeader = (props) => {
 	return (
 		<View style={[rootStyle, headerContainerStyle]}>
 			{columns.map((column, i) => {
-				let isSorted = sortConfig.key === column.key;
+				const sortKey = column.sortKey ? column.sortKey : column.key;
+				let isSorted = sortConfig.key === sortKey;
 				isSorted = noSort ? false : isSorted;
 				return (
 					<TouchableOpacity
 						style={getViewStyle(isSorted, column.width * SCREEN_WIDTH, i, columns.length)}
-						key={column.key}
+						key={sortKey}
 						onPress={() => {
 							!noSort  &&
 							onSortChange({
-								key: column.key,
+								key: sortKey,
 								direction: !isSorted ? 'asc' : (
 									sortConfig.direction === 'asc' ? 'desc' : 'asc'
 								)
@@ -171,7 +172,7 @@ const SortHeader = (props) => {
 						}}
 					>
 						{column.icon && <FontAwesome5
-							key={column.key}
+							key={sortKey}
 							name={column.icon}
 							size={20}
 							color={textColor}
@@ -180,14 +181,14 @@ const SortHeader = (props) => {
 
 						<TextComponent
 							style={getTextStyle(isSorted, i < columns.length - 1, column.width * SCREEN_WIDTH * 0.8, column.align)}
-							key={column.key + '1'}
+							key={sortKey + '1'}
 						>
 							{column.label}
 						</TextComponent>
 
 						{ isSorted && sortConfig.direction === 'asc' ?
 							<FontAwesome5
-								key={column.key + '2'}
+								key={sortKey + '2'}
 								name="chevron-up"
 								size={12}
 								color={sortIndicatorColor}
@@ -196,7 +197,7 @@ const SortHeader = (props) => {
 							: false}
 						{ isSorted && sortConfig.direction === 'desc' ?
 							<FontAwesome5
-								key={column.key + '3'}
+								key={sortKey + '3'}
 								name="chevron-down"
 								size={12}
 								color={sortIndicatorColor}
