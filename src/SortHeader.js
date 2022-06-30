@@ -5,10 +5,11 @@ import {
 } from 'react-native';
 
 import SortColumn from './SortColumn';
-
+import Layout from './constants/Layout';
 
 const SortHeader = (props) => {
 	const {
+		screenWidth,
 		columns,
 		sortConfig,
 		onSortChange,
@@ -21,8 +22,12 @@ const SortHeader = (props) => {
 		backgroundColor = tintColor,
 		selectedColor = '#a34e76',
 		borderColor = 'transparent',
-		textColor = '#fff'
+		textColor = '#fff',
+		headerContainerStyle,
+		cellContainerStyle
 	} = props;
+
+	const SCREEN_WIDTH = screenWidth || Layout.window.width;
 
 	const rootStyle = {
 		flexDirection: 'row',
@@ -35,7 +40,7 @@ const SortHeader = (props) => {
 	};
 
 	return (
-		<View style={rootStyle}>
+		<View style={[rootStyle, headerContainerStyle]}>
 			{columns.map((column, i) => {
 				return (
 					<SortColumn
@@ -52,6 +57,8 @@ const SortHeader = (props) => {
 						borderColor={borderColor}
 						selectedColor={selectedColor}
 						textColor={textColor}
+						screenWidth={SCREEN_WIDTH}
+						cellContainerStyle={cellContainerStyle}
 					/>
 				);
 			})}
@@ -86,7 +93,10 @@ SortHeader.propTypes = {
 	backgroundColor: PropTypes.string,
 	selectedColor: PropTypes.string,
 	borderColor: PropTypes.string,
-	textColor: PropTypes.string
+	textColor: PropTypes.string,
+	screenWidth: PropTypes.number,
+	headerContainerStyle: PropTypes.object,
+	cellContainerStyle: PropTypes.object
 };
 
 export default SortHeader;
