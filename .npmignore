@@ -1,5 +1,6 @@
 # Logs
 *.log
+*.tgz
 npm-debug.log
 
 # Dependency directory
