@@ -22,7 +22,8 @@ const StyledSelect = props => {
 		placeholderBold,
 		fontSize,
 		placeholder,
-		noPlaceholder
+		noPlaceholder,
+		onDonePress = () => {}
 	} = props;
 
 	const [selected, setSelected] = useState(value);
@@ -82,6 +83,7 @@ const StyledSelect = props => {
 	const onDone = () => {
 		onValueChange(selected);
 		setPickerVisible(false);
+		onDonePress(selected);
 	};
 
 	return (
