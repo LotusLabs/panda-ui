@@ -54,9 +54,9 @@ const StyledSelect = props => {
 	// get label
 	const renderValueLabel = () => {
 		// if value is set, loop items to find label
-		if (selected) {
+		if (selected !== undefined) {
 			const label = items.find(item => item.value === selected);
-			if (label) {
+			if (label !== undefined) {
 				return label.label;
 			}
 		}
