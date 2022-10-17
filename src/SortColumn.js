@@ -150,14 +150,14 @@ const SortColumn = (props) => {
 				style={{ marginLeft: 10 }}
 			/>}
 
-			<Text
+			{column.label ? <Text
 				style={[
 					getTextStyle(isSorted, i < columnCount - 1, column.width * screenWidth * 0.8, column.align)
 				]}
 				key={sortKey + '1'}
 			>
 				{column.label}
-			</Text>
+			</Text> : null}
 
 			{ isSorted && sortConfig.direction === 'asc' ?
 				<FontAwesome5
