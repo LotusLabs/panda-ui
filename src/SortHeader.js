@@ -69,8 +69,12 @@ const SortHeader = (props) => {
 SortHeader.propTypes = {
 	columns: PropTypes.arrayOf(PropTypes.shape({
 		key: PropTypes.any.isRequired,
-		// Node can be string, React element, or anything renderable.
-		label: PropTypes.node.isRequired
+		sortKey: PropTypes.string,
+		align: PropTypes.string,
+		label: PropTypes.node,
+		width: PropTypes.number.isRequired,
+		icon: PropTypes.node,
+		textAlign: PropTypes.node
 	})),
 	sortConfig: PropTypes.exact({
 		key: PropTypes.any.isRequired,
@@ -81,9 +85,6 @@ SortHeader.propTypes = {
 	borderRadiusLeft: PropTypes.number,
 	borderRadiusRight: PropTypes.number,
 	noSort: PropTypes.bool,
-	// solid: PropTypes.bool,
-	// center: PropTypes.bool,
-	// ignoreFirstColumnInSort: PropTypes.bool,
 	height: PropTypes.oneOfType([
 		PropTypes.string,
 		PropTypes.number

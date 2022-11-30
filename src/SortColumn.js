@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
+import Layout from './constants/Layout';
 
 const SortColumn = (props) => {
 	const {
@@ -27,6 +28,8 @@ const SortColumn = (props) => {
 		screenWidth,
 		cellContainerStyle
 	} = props;
+
+	const SCREEN_WIDTH = screenWidth || Layout.window.width;
 
 	const commonTextStyle = {
 		fontWeight: 'bold',
@@ -130,7 +133,7 @@ const SortColumn = (props) => {
 
 	return (
 		<TouchableOpacity
-			style={getViewStyle(isSorted, column.width * screenWidth, i, columnCount)}
+			style={getViewStyle(isSorted, column.width * SCREEN_WIDTH, i, columnCount)}
 			key={sortKey}
 			onPress={() => {
 				!noSort  &&
@@ -150,14 +153,14 @@ const SortColumn = (props) => {
 				style={{ marginLeft: 10 }}
 			/>}
 
-			{column.label ? <Text
+			<Text
 				style={[
-					getTextStyle(isSorted, i < columnCount - 1, column.width * screenWidth * 0.8, column.align)
+					getTextStyle(isSorted, i < columnCount - 1, column.width * SCREEN_WIDTH * 0.8, column.align)
 				]}
 				key={sortKey + '1'}
 			>
 				{column.label}
-			</Text> : null}
+			</Text>
 
 			{ isSorted && sortConfig.direction === 'asc' ?
 				<FontAwesome5
@@ -186,9 +189,8 @@ SortColumn.propTypes = {
 		key: PropTypes.any.isRequired,
 		sortKey: PropTypes.string,
 		align: PropTypes.string,
-		// Node can be string, React element, or anything renderable.
 		label: PropTypes.node,
-		width: PropTypes.node.isRequired,
+		width: PropTypes.number.isRequired,
 		icon: PropTypes.node,
 		textAlign: PropTypes.node
 	}),
