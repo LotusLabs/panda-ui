@@ -6,11 +6,11 @@
 // Example:
 //
 // GOOD:
-// import { Button, CheckBox } from 'react-native-apanda-ui';
+// import { Button, CheckBox } from 'react-native-panda-ui';
 //
 // BAD
-// import Button from 'react-native-apanda-ui/Button';
-// import CheckBox from 'react-native-apanda-ui/CheckBox';
+// import Button from 'react-native-panda-ui/Button';
+// import CheckBox from 'react-native-panda-ui/CheckBox';
 import Button from './Button';
 import ButtonGroup from './ButtonGroup';
 import Card from './Card';
@@ -21,17 +21,22 @@ import CounterInput from './CounterInput';
 import DoubleCard from './DoubleCard';
 import Drawer from './Drawer';
 import Feedback from './Feedback';
+import Picker from './Picker';
 import RadioGroup from './RadioGroup';
 import ScanTextInput from './ScanTextInput';
 import SearchBar from './SearchBar';
 import SortColumn from './SortColumn';
 import SortHeader from './SortHeader';
-import * as StyledText from './StyledText';
+import SortHeaderFlex from './SortHeaderFlex';
 import StickyColumnTable from './StickyColumnTable';
 import TabGroup from './TabGroup';
 import ToggleButton from './ToggleButton';
-import StyledSelect from './StyledSelect';
 import StyledTooltip from './StyledTooltip';
+
+// Note Styled Select and Text are not intended to be used in Panda.
+// These files should be implemented in your code with your fonts, etc
+import StyledSelect from './StyledSelect';
+import * as StyledText from './StyledText';
 
 // utils
 import invariant from './utils/invariant';
@@ -54,11 +59,13 @@ export {
 	CounterInput,
 	DoubleCard,
 	Feedback,
+	Picker,
 	RadioGroup,
 	ScanTextInput,
 	SearchBar,
 	SortColumn,
 	SortHeader,
+	SortHeaderFlex,
 	StyledText,
 	StyledSelect,
 	StyledTooltip,

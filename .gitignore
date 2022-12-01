@@ -17,7 +17,8 @@ yarn-error.log*
 ._*
 .Spotlight-V100
 .Trashes
+.expo
 ehthumbs.db
 Thumbs.db
-examples/.expo/packager-info.json
+examples/.expo
 # *.tgz

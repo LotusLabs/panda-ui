@@ -25,7 +25,7 @@ const PandaDetail = ({ qualitiesData }) => {
 	};
 
 	return (
-		<View style={{ width: '100%', alignItems: 'center' }}>
+		<View style={{ flex: 1, alignItems: 'center' }}>
 			<View style={{ flexDirection: 'row', marginHorizontal: 20 }}>
 				<H1 textColor={Colors[theme].textColor} style={{ textAlign: 'left' }}>{qualitiesData.name}</H1>
 			</View>
