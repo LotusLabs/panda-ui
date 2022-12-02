@@ -1,10 +1,10 @@
 export default {
 	default:  {
 		accentBorderWidth: 1,
-		borderRadius: 5,
+		borderRadius: 50,
 		buttonBorderWidth: 1,
 		numberOfCards: 1,
-		padding: 5
+		padding: 10
 	},
 	panda:  {
 		accentBorderWidth: 1,
@@ -36,10 +36,10 @@ export default {
 	},
 	candyPanda: {
 		accentBorderWidth: 1,
-		borderRadius: 50,
+		borderRadius: 6,
 		buttonBorderWidth: 0,
 		numberOfCards: 2,
-		padding: 10
+		padding: 4
 	},
 	stocker: {
 		accentBorderWidth: 1,
@@ -50,7 +50,7 @@ export default {
 	},
 	defaultInverted:  {
 		accentBorderWidth: 1,
-		borderRadius: 5,
+		borderRadius: 50,
 		buttonBorderWidth: 0,
 		numberOfCards: 2,
 		padding: 10
@@ -99,7 +99,7 @@ export default {
 	},
 	defaultGradient: {
 		accentBorderWidth: 1,
-		borderRadius: 5,
+		borderRadius: 50,
 		buttonBorderWidth: 0,
 		numberOfCards: 2,
 		padding: 10
@@ -148,7 +148,7 @@ export default {
 	},
 	defaultInvertedGradient: {
 		accentBorderWidth: 1,
-		borderRadius: 5,
+		borderRadius: 50,
 		buttonBorderWidth: 0,
 		numberOfCards: 2,
 		padding: 10

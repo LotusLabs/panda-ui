@@ -7,6 +7,7 @@ import {
 
 // Expo imports
 import { StatusBar } from 'expo-status-bar';
+import Constants from 'expo-constants';
 
 // Panda Imports
 import {
@@ -20,7 +21,7 @@ import {
 } from '../contexts/ThemeContext';
 import Styles from '../constants/Styles';
 import Colors from '../constants/Colors';
-import { H1 } from '../components/StyledText';
+import { H1, Body3 } from '../components/StyledText';
 
 
 export default function HelpScreen() {
@@ -73,6 +74,7 @@ export default function HelpScreen() {
 					</View>
 				</DoubleCard>
 			</View>
+			<Body3 style={{ textAlign: 'right' }} textColor={Colors[theme].textColor}>{`v${Constants.manifest.version}`}</Body3>
 		</SafeAreaView>
 	);
 }

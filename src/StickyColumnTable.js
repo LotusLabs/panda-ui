@@ -9,10 +9,11 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-import SortColumn from './SortColumn';
-import SortHeader from './SortHeader';
+import SortColumnFlex from './SortColumnFlex';
+import SortHeaderFlex from './SortHeaderFlex';
 import Button from './Button';
 
+// const PADDING = 10;
 const ScrollerEnum = {
 	None: 'none',
 	Header: 'header',
@@ -102,26 +103,28 @@ const StickyColumnTable = (props) => {
 				}}>
 				<View style={{
 					height: Platform.OS === 'ios' ? headerHeight - 3 : headerHeight - 1,
-					backgroundColor: headerBackgroundColor,
-					borderTopLeftRadius: borderRadius,
-					borderTopRightRadius: 0,
 					width: '100%',
 					flexDirection: 'row',
-					justifyContent: 'center',
-					alignItems: 'center' }}>
-					<SortColumn
+					backgroundColor: 'transparent',
+					borderWidth: 0,
+					borderTopLeftRadius: borderRadius,
+					borderTopRightRadius: 0
+				}}>
+					<SortColumnFlex
 						key="0"
 						column={stickyHeaderOptions}
-						columnCount={stickyHeaderOptions.length}
+						columnCount={0}
 						i={0}
 						sortConfig={sortConfig}
 						onSortChange={onSortChange}
 						borderRadiusLeft={borderRadius}
+						backgroundColor={headerBackgroundColor}
 						borderRadiusRight={0}
 						sortIndicatorColor={sortIndicatorColor}
 						borderColor={borderColor}
 						selectedColor={selectedColor}
 						textColor={headerTextColor}
+						screenWidth={Dimensions.get('screen').width}
 					/>
 				</View>
 				<ScrollView
@@ -166,7 +169,7 @@ const StickyColumnTable = (props) => {
 					{/* This <View> is required to create a flex column layout inside the horizontal <ScrollView> */}
 					<View
 						style={{ minWidth: Dimensions.get('screen').width * 2, marginTop: -1 }}>
-						<SortHeader
+						<SortHeaderFlex
 							columns={columns}
 							sortConfig={sortConfig}
 							onSortChange={onSortChange}

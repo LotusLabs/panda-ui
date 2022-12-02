@@ -8,9 +8,6 @@ import {
 	Text
 } from 'react-native';
 
-// Expo imports
-import { StatusBar } from 'expo-status-bar';
-
 // Panda Imports
 import {
 	Card,
@@ -25,7 +22,6 @@ import {
 import Colors from '../constants/Colors';
 import LoadingIndicator from '../components/LoadingIndicator';
 import PandaDetail from '../components/PandaDetail';
-import ThemeSelect from '../components/ThemeSelect';
 import window from '../constants/Layout';
 import { getCharacters, getCharacterQualities } from '../utils/apiHandler';
 
@@ -49,7 +45,6 @@ export default function NavigationScreen() {
 	const styles = StyleSheet.create({
 		container: {
 			flex: 1,
-			marginTop: StatusBar.height,
 			backgroundColor: Colors[theme].backgroundColor,
 			alignItems: 'center'
 		}
@@ -68,10 +63,6 @@ export default function NavigationScreen() {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<ThemeSelect
-				characterData={characterData}
-				setLoading={setLoading}
-			/>
 			<View style={{ width: '100%', alignItems: 'center', marginTop: 20 }}>
 				<View style={{ width: '104%', height: window.height ? window.height : 800 }}>
 					<Card
