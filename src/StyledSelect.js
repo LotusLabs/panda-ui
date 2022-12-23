@@ -114,7 +114,7 @@ const StyledSelect = props => {
 				</View>
 			</TouchableOpacity>
 			{pickerVisible && (
-				<Modal transparent visible animationType="none">
+				<Modal transparent visible animationType="none" supportedOrientations={['portrait', 'landscape']}>
 					<TouchableWithoutFeedback onPress={onDone}>
 						<View style={styles.outerContainer}></View>
 					</TouchableWithoutFeedback>
