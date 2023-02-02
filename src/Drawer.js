@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { View, StyleSheet, Animated, Dimensions } from 'react-native';
+import { View, StyleSheet, Animated, Dimensions, ScrollView } from 'react-native';
 import { withAnchorPoint } from 'react-native-anchor-point';
 import Button from './Button';
 import PropTypes from 'prop-types';
@@ -75,9 +75,9 @@ function DrawerComponent(props) {
 	return (
 		<View style={[styles.container, { width: SCREEN_WIDTH }]}>
 			{menuToggle && (
-				<View style={{ width: SIDEBAR_WIDTH, position: 'absolute' }}>
+				<ScrollView style={{ width: SIDEBAR_WIDTH, position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}>
 					<SideBar visible={menuToggle} />
-				</View>
+				</ScrollView>
 			)}
 			<Animated.View style={({ width: MAIN_WIDTH }, [getTransform()])}>
 				{children}
