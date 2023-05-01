@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, TouchableOpacity, Dimensions, Modal, TouchableWithoutFeedback } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import Icon from '@expo/vector-icons/FontAwesome5';
+import { MaterialIcons } from '@expo/vector-icons';
 import chroma from 'chroma-js';
 import PropTypes from 'prop-types';
 import * as StyledText from './StyledText';
@@ -23,7 +23,10 @@ const StyledSelect = props => {
 		fontSize,
 		placeholder,
 		noPlaceholder,
-		onDonePress = () => {}
+		onDonePress = () => {},
+		containerStyle,
+		touchableStyle,
+		iconColor,
 	} = props;
 
 	const [selected, setSelected] = useState(value);
@@ -45,7 +48,8 @@ const StyledSelect = props => {
 		width: width,
 		height: height,
 		justifyContent: 'center',
-		alignItems: 'flex-start'
+		alignItems: 'flex-start',
+		...containerStyle
 	};
 
 	const placeholderColor = chroma.contrast(backgroundColor, '#fff') > 5 ? '#fff' : '#000';
@@ -89,15 +93,17 @@ const StyledSelect = props => {
 		<View style={RNPickerWrapper}>
 			<TouchableOpacity
 				onPress={togglePicker}
-				style={{
-					// backgroundColor: 'salmon',
-					width,
-					height,
-					paddingHorizontal: 10,
-					flexDirection: 'row',
-					alignItems: 'center',
-					justifyContent: 'space-between'
-				}}
+				style={[
+					{
+						width,
+						height,
+						paddingHorizontal: 10,
+						flexDirection: 'row',
+						alignItems: 'center',
+						justifyContent: 'space-between'
+					},
+					touchableStyle
+				]}
 			>
 				<StyledText.Body1
 					style={{
@@ -108,8 +114,8 @@ const StyledSelect = props => {
 				>
 					{renderValueLabel()}
 				</StyledText.Body1>
-				<View>
-					<Icon name="caret-down" size={16} color={color || placeholderColor} />
+				<View style={{ marginLeft: 10 }}>
+					<MaterialIcons name="keyboard-arrow-down" size={20} color={iconColor || color || placeholder} />
 				</View>
 			</TouchableOpacity>
 			{pickerVisible && (
@@ -208,5 +214,8 @@ StyledSelect.propTypes = {
 	placeholderBold: PropTypes.bool,
 	fontSize: PropTypes.number,
 	placeholder: PropTypes.string,
-	noPlaceholder: PropTypes.bool
+	noPlaceholder: PropTypes.bool,
+	containerStyle: PropTypes.object,
+	touchableStyle: PropTypes.object,
+	iconColor: PropTypes.string
 };

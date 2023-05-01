@@ -25,14 +25,14 @@ const SortColumn = (props) => {
 		borderColor = 'transparent',
 		textColor = '#fff',
 		textActiveColor = '#fff',
+		fontWeight = 'bold',
 		screenWidth,
 		cellContainerStyle
 	} = props;
-
 	const SCREEN_WIDTH = screenWidth || Layout.window.width;
 
 	const commonTextStyle = {
-		fontWeight: 'bold',
+		fontWeight: fontWeight,
 		maxHeight: height,
 		color: textColor
 	};
@@ -216,7 +216,8 @@ SortColumn.propTypes = {
 	textColor: PropTypes.string,
 	textActiveColor: PropTypes.string,
 	screenWidth: PropTypes.number,
-	cellContainerStyle: PropTypes.object
+	cellContainerStyle: PropTypes.object,
+    fontWeight: PropTypes.string,
 };
 
 export default SortColumn;
