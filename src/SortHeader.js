@@ -24,7 +24,9 @@ const SortHeader = (props) => {
 		borderColor = 'transparent',
 		textColor = '#fff',
 		headerContainerStyle,
-		cellContainerStyle
+		cellContainerStyle,
+		fontWeight,
+		textActiveColor,
 	} = props;
 
 	const SCREEN_WIDTH = screenWidth || Layout.window.width;
@@ -57,6 +59,8 @@ const SortHeader = (props) => {
 						borderColor={borderColor}
 						selectedColor={selectedColor}
 						textColor={textColor}
+						fontWeight={fontWeight}
+						textActiveColor={textActiveColor}
 						screenWidth={SCREEN_WIDTH}
 						cellContainerStyle={cellContainerStyle}
 					/>
@@ -97,7 +101,9 @@ SortHeader.propTypes = {
 	textColor: PropTypes.string,
 	screenWidth: PropTypes.number,
 	headerContainerStyle: PropTypes.object,
-	cellContainerStyle: PropTypes.object
+	cellContainerStyle: PropTypes.object,
+	fontWeight: PropTypes.string,
+	textActiveColor: PropTypes.string
 };
 
 export default SortHeader;
