@@ -35,7 +35,7 @@ function LastRefreshedTimeClock({ lastRefreshed, onPress, iconColor, height=25, 
 					source={imgSrc}
 					height={height}
 					width={width}
-					style={{ marginRight: 10, tintColor: iconColor}}
+					style={{ marginRight: 10, tintColor: iconColor }}
 				/>
 			</TouchableOpacity>
 
