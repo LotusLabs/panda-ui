@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pressable } from 'react-native';
+import PropTypes from 'prop-types';
 
 function TouchableOpacity(props) {
 	const { onPress, style, children, disabled = false } = props;
@@ -16,3 +17,10 @@ function TouchableOpacity(props) {
 }
 
 export default TouchableOpacity;
+
+TouchableOpacity.propTypes = {
+	onPress: PropTypes.func,
+	style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+	disabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
+	children: PropTypes.oneOfType([PropTypes.element.isRequired, PropTypes.func, PropTypes.array])
+};
