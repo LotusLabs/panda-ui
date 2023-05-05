@@ -1,7 +1,9 @@
 import React from 'react';
 import StyledSelect from './StyledSelect';
+import PropTypes from 'prop-types';
 
-const CustomStyledSelect = ({
+
+const StyledSelectNext = ({
 	items,
 	width = 175,
 	height = 45,
@@ -65,4 +67,34 @@ const CustomStyledSelect = ({
 	);
 };
 
-export default CustomStyledSelect;
+export default StyledSelectNext;
+
+StyledSelectNext.propTypes = {
+	items: PropTypes.array,
+	label: PropTypes.string,
+	value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	meta: PropTypes.any,
+	onValueChange: PropTypes.func.isRequired,
+	enableActionOnValueChange: PropTypes.bool,
+	enabled: PropTypes.bool,
+	height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	input: PropTypes.any,
+	rest: PropTypes.any,
+	separatorColor: PropTypes.string,
+	validationErrorColor: PropTypes.string,
+	backgroundColor: PropTypes.string,
+	color: PropTypes.string,
+	placeholderBold: PropTypes.bool,
+	fontSize: PropTypes.number,
+	placeholder: PropTypes.string,
+	noPlaceholder: PropTypes.bool,
+	border: PropTypes.bool,
+	containerStyle: PropTypes.object,
+	touchableStyle: PropTypes.object,
+	style: PropTypes.object,
+	iconColor: PropTypes.string,
+	placeholderColor: PropTypes.string,
+	selectedValue: PropTypes.string,
+	onDonePress: PropTypes.func
+};

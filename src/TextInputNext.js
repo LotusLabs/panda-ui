@@ -1,8 +1,9 @@
 import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import TouchableIcon from './TouchableIcon';
+import PropTypes from 'prop-types';
 
-function CustomInput(props) {
+function TextInputNext(props) {
 	const {
 		value,
 		containerStyle,
@@ -21,7 +22,6 @@ function CustomInput(props) {
 		autoCompleteType,
 		secureTextEntry,
 		returnKeyType,
-		ref,
 		disableFullscreenUI,
 		autoCapitalize,
 		leftIconSource,
@@ -66,7 +66,6 @@ function CustomInput(props) {
 				maxLength={maxLength}
 				multiline={multiline}
 				textAlign={textAlign}
-				ref={ref}
 				returnKeyType={returnKeyType} // ('done', 'go', 'next', 'search', 'send')
 				disableFullscreenUI={disableFullscreenUI}
 				autoCapitalize={autoCapitalize}
@@ -108,4 +107,34 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default CustomInput;
+export default TextInputNext;
+
+TextInputNext.propTypes = {
+	value: PropTypes.string,
+	placeholder: PropTypes.string,
+	autoCompleteType: PropTypes.string,
+	keyboardType: PropTypes.string,
+	textAlign: PropTypes.string,
+	secureTextEntry: PropTypes.bool,
+	returnKeyType: PropTypes.string,
+	inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+	containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+	autoFocus: PropTypes.bool,
+	editable: PropTypes.bool,
+	disableFullscreenUI: PropTypes.bool,
+	multiline: PropTypes.bool,
+	autoCapitalize: PropTypes.bool,
+	onChangeText: PropTypes.func,
+	onSubmitEditing: PropTypes.func,
+	leftIconSource: PropTypes.oneOfType([PropTypes.object, PropTypes.node]),
+	rightIconSource: PropTypes.oneOfType([PropTypes.object, PropTypes.node]),
+	onPressLeftIcon: PropTypes.func,
+	onPressRightIcon: PropTypes.func,
+	placeholderTextColor: PropTypes.string,
+	backgroundColor: PropTypes.string,
+	rightIconColor: PropTypes.string,
+	leftIconColor: PropTypes.string,
+	maxLength: PropTypes.number,
+	height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	width: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+};

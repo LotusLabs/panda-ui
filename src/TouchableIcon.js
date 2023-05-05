@@ -1,6 +1,7 @@
 import React from 'react';
 import TouchableOpacity from './TouchableOpacity';
 import { Image } from 'react-native';
+import PropTypes from 'prop-types';
 
 const TouchableIcon = ({
 	onPress,
@@ -27,3 +28,15 @@ const TouchableIcon = ({
 };
 
 export default TouchableIcon;
+
+TouchableIcon.propTypes = {
+	onPress: PropTypes.func,
+	source: PropTypes.oneOfType([PropTypes.object, PropTypes.node]),
+	touchableStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+	imageStyle: PropTypes.object,
+	height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	resizeMode: PropTypes.string,
+	resizeMethod: PropTypes.string,
+	opacity: PropTypes.number
+};

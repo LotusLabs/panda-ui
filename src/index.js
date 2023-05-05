@@ -33,6 +33,14 @@ import TabGroup from './TabGroup';
 import ToggleButton from './ToggleButton';
 import StyledTooltip from './StyledTooltip';
 
+import StyledSelectNext from './StyledSelectNext';
+import TouchableIcon from './TouchableIcon';
+import TouchableOpacity from './TouchableOpacity';
+import TextInputNext from './TextInputNext';
+import BasicImage from './BasicImage';
+import StyledSwitch from './StyledSwitch';
+import LastRefreshedTimeClock from './LastRefreshedTimeClock';
+
 // Note Styled Select and Text are not intended to be used in Panda.
 // These files should be implemented in your code with your fonts, etc
 import StyledSelect from './StyledSelect';
@@ -78,5 +86,12 @@ export {
 	useDebugRender,
 	useSortedData,
 	useToggle,
-	Drawer
+	Drawer,
+	StyledSelectNext,
+	TouchableIcon,
+	TouchableOpacity,
+	TextInputNext,
+	BasicImage,
+	LastRefreshedTimeClock,
+	StyledSwitch
 };

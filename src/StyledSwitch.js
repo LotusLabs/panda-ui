@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, View, Switch } from 'react-native';
 import * as StyledText from './StyledText';
 
+import PropTypes from 'prop-types';
+
 function StyledSwitch({
 	label,
 	value,
@@ -56,3 +58,17 @@ const styles = StyleSheet.create({
 });
 
 export default StyledSwitch;
+StyledSwitch.propTypes = {
+	value: PropTypes.bool,
+	label: PropTypes.string,
+	color: PropTypes.string,
+	thumbColor: PropTypes.string,
+	trackColorTrue: PropTypes.string,
+	trackColorFalse: PropTypes.string,
+	switchStyle: PropTypes.object,
+	containerStyle: PropTypes.object,
+	textStyle: PropTypes.object,
+	iconElement: PropTypes.object,
+	scale: PropTypes.number,
+	onChange: PropTypes.func
+};
