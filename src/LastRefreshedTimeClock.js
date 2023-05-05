@@ -6,7 +6,7 @@ import BasicImage from './BasicImage';
 import { View } from 'react-native';
 import PropTypes from 'prop-types';
 
-function LastRefreshedTimeClock({ lastRefreshed, onPress }) {
+function LastRefreshedTimeClock({ lastRefreshed, onPress, iconColor, height=25, width=25, imgSrc }) {
 	const [timeStamp, setTimeStamp] = useState('');
 	useFocusEffect(
 		useCallback(() => {
@@ -32,10 +32,10 @@ function LastRefreshedTimeClock({ lastRefreshed, onPress }) {
 		<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 			<TouchableOpacity onPress={onPress}>
 				<BasicImage
-					source={require('../assets/images/common/refreshgreen.png')}
-					height={25}
-					width={25}
-					style={{ marginRight: 10 }}
+					source={imgSrc}
+					height={height}
+					width={width}
+					style={{ marginRight: 10, tintColor: iconColor}}
 				/>
 			</TouchableOpacity>
 
@@ -50,5 +50,9 @@ export default LastRefreshedTimeClock;
 
 LastRefreshedTimeClock.propTypes = {
 	lastRefreshed: PropTypes.number,
-	onPress: PropTypes.func
+	onPress: PropTypes.func,
+	iconColor: PropTypes.string,
+	imgSrc: PropTypes.oneOfType([PropTypes.object, PropTypes.node]),
+	width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	height: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
