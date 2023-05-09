@@ -41,7 +41,7 @@ const StyledSelectNext = ({
 		...touchableStyle
 	};
 
-	const TextColor = selectedValue === null || selectedValue === undefined ? placeholderColor : color;
+	const TextColor = !value ? placeholderColor : color;
 
 	return (
 		<StyledSelect

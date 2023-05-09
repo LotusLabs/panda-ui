@@ -3,6 +3,7 @@ import { View, StyleSheet, Animated, Dimensions, ScrollView } from 'react-native
 import { withAnchorPoint } from 'react-native-anchor-point';
 import Button from './Button';
 import PropTypes from 'prop-types';
+import TouchableIcon from './TouchableIcon';
 
 const DEVICE_SCREEN_HEIGHT = Dimensions.get('window').height;
 const DEVICE_SCREEN_WIDTH = Dimensions.get('window').width;
@@ -18,18 +19,27 @@ function DrawerComponent(props) {
 		buttonBackgroundColor,
 		buttonColor,
 		buttonLabel,
-		buttonPosition
+		buttonPosition,
+		buttonStyle,
+		buttonContainerStyle,
+		resizeMode='contain',
+		iconSource,
+		iconHeight=30,
+		iconWidth=30,
+		imageStyle,
+		touchableStyle,
+		rotateYdegree
 	} = props;
 	const [menuToggle, setMenuToggle] = useState(false);
 
 	const SCREEN_WIDTH = screenWidth || DEVICE_SCREEN_WIDTH;
 	const SIDEBAR_WIDTH = width || DEFAULT_SIDEBAR_WIDTH;
 	const MAIN_WIDTH = SCREEN_WIDTH - SIDEBAR_WIDTH;
-
 	const MAIN_SCALED = MAIN_WIDTH / SCREEN_WIDTH;
 
 	const scaleValue = useRef(new Animated.Value(1)).current;
 	const translateValue = useRef(new Animated.Value(0)).current;
+
 
 	const getTransform = () => {
 		if (squeeze) {
@@ -42,6 +52,13 @@ function DrawerComponent(props) {
 			transform: [{ translateX: translateValue }]
 		};
 	};
+
+
+	let iconStyle ={
+		transform: [{ rotateY: menuToggle ? rotateYdegree :'0deg' }],
+		...imageStyle
+	};
+
 
 	const toggleMenu = () => {
 		if (squeeze) {
@@ -59,15 +76,26 @@ function DrawerComponent(props) {
 		}
 	};
 
+
 	const renderButton = () => {
 		return (
-			<View style={[styles.buttonContainer, { top: buttonPosition || DEVICE_SCREEN_HEIGHT / 3 }]}>
-				<Button
-					label={buttonLabel || '>'}
+			<View style={[styles.buttonContainer, { top: buttonPosition || DEVICE_SCREEN_HEIGHT / 3 }, buttonContainerStyle]}>
+				{iconSource ? <TouchableIcon
+					resizeMode={resizeMode}
+					source={iconSource}
+					height={iconHeight}
+					width={iconWidth}
+					imageStyle={iconStyle}
 					onPress={toggleMenu}
-					textColor={buttonBackgroundColor || 'salmon'}
-					color={buttonColor || 'black'}
-				/>
+					touchableStyle={touchableStyle}
+				/> :
+					<Button
+						label={buttonLabel || '>'}
+						onPress={toggleMenu}
+						textColor={buttonBackgroundColor || 'salmon'}
+						color={buttonColor || 'black'}
+						style={buttonStyle}
+					/>}
 			</View>
 		);
 	};
@@ -106,7 +134,16 @@ DrawerComponent.propTypes = {
 	buttonPosition: PropTypes.number,
 	width: PropTypes.number,
 	screenWidth: PropTypes.number,
-	squeeze: PropTypes.bool
+	squeeze: PropTypes.bool,
+	buttonStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+	buttonContainerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+	touchableStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+	iconHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	iconWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	iconSource: PropTypes.oneOfType([PropTypes.object, PropTypes.node]),
+	imageStyle: PropTypes.object,
+	resizeMode: PropTypes.string,
+	rotateYdegree: PropTypes.string
 };
 
 export default DrawerComponent;
