@@ -26,7 +26,7 @@ const StyledSelect = props => {
 		onDonePress = () => {},
 		containerStyle,
 		touchableStyle,
-		iconColor,
+		iconColor
 	} = props;
 
 	const [selected, setSelected] = useState(value);
@@ -57,10 +57,10 @@ const StyledSelect = props => {
 	// get label
 	const renderValueLabel = () => {
 		// if value is set, loop items to find label
-		if (selected !== undefined) {
-			const label = items.find(item => item.value === selected);
-			if (label !== undefined) {
-				return label.label;
+		if (value) {
+			const item = items.find(item => item.value === value);
+			if (item !== undefined) {
+				return item.label;
 			}
 		}
 		return placeholder || '';
@@ -133,8 +133,9 @@ const StyledSelect = props => {
 							style={styles.pickerStyle}
 							selectedValue={selected}
 							itemStyle={styles.pickerItemStyle}
-							onValueChange={value => enableActionOnValueChange ? performActionOnValueChange(value) : setSelected(value)
-							}
+							onValueChange={value => {
+								enableActionOnValueChange ? performActionOnValueChange(value) : setSelected(value);
+							}}
 						>
 							{noPlaceholder ? null : renderPlaceholder()}
 							{renderItems()}
@@ -201,6 +202,7 @@ StyledSelect.propTypes = {
 	value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	meta: PropTypes.any,
 	onValueChange: PropTypes.func.isRequired,
+	onDonePress: PropTypes.func,
 	enableActionOnValueChange: PropTypes.bool,
 	enabled: PropTypes.bool,
 	height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
