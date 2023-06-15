@@ -10,7 +10,7 @@ export default function BasicImage(props) {
 		source,
 		height = '100%',
 		width = '100%',
-		resizeMode = 'cover',
+		resizeMode = 'contain',
 		resizeMethod = 'scale',
 		opacity = 1,
 		style

@@ -15,9 +15,10 @@ function ButtonGroup(props) {
 		labelSize,
 		buttonWidth,
 		isbuttonSeparator = true,
-		fontWeight='600',
+		fontWeight = '600',
+		selectedIndexHight = 30,
 		customButtonStyle,
-		selectedIndexHight=30
+		buttonContainerStyle
 	} = props;
 
 	const lastIndex = buttonLabels.length - 1;
@@ -46,7 +47,11 @@ function ButtonGroup(props) {
 						{ width: buttonWidth || 'auto' },
 						(index === 0 || selectedIndex === index) && styles.buttonRadiusLeft,
 						(lastIndex === index || selectedIndex === index) && styles.buttonRadiusRight,
-						selectedIndex === index && { height: selectedIndexHight, backgroundColor: buttonGroupSelectedBackgroundColor || 'pink' }
+						selectedIndex === index && {
+							height: selectedIndexHight,
+							backgroundColor: buttonGroupSelectedBackgroundColor || 'pink'
+						},
+						customButtonStyle
 					]}
 					onPress={() => onSelect(index)}
 				>
@@ -75,7 +80,7 @@ function ButtonGroup(props) {
 				styles.buttonRadiusLeft,
 				styles.buttonRadiusRight,
 				{ backgroundColor: buttonGroupBackgroundColor || 'salmon' },
-				customButtonStyle
+				buttonContainerStyle
 			]}
 		>
 			{renderButtons()}
@@ -108,7 +113,6 @@ const styles = StyleSheet.create({
 ButtonGroup.propTypes = {
 	selectIndex: PropTypes.func,
 	selectedIndex: PropTypes.number,
-	buttonBackgroundColor: PropTypes.string,
 	buttonGroupBackgroundColor: PropTypes.string,
 	buttonGroupSelectedBackgroundColor: PropTypes.string,
 	buttonLabels: PropTypes.array,
@@ -118,7 +122,11 @@ ButtonGroup.propTypes = {
 	buttonGroupSeparatorColor: PropTypes.string,
 	labelColorSelected: PropTypes.string,
 	selectedIndexHight: PropTypes.number,
-	buttonSeparator: PropTypes.object,	
+	buttonSeparator: PropTypes.object,
+	buttonContainerStyle: PropTypes.object,
+	customButtonStyle: PropTypes.object,
+	isbuttonSeparator: PropTypes.bool,
+	fontWeight: PropTypes.string
 };
 
 export default ButtonGroup;

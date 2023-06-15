@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
-import TouchableIcon from './TouchableIcon';
 import PropTypes from 'prop-types';
+import TouchableIcon from './TouchableIcon';
 
 function TextInputNext(props) {
 	const {
@@ -30,8 +30,9 @@ function TextInputNext(props) {
 		onPressRightIcon,
 		rightIconColor,
 		leftIconColor,
-		height = 20,
-		width = 20
+		iconHeight = 20,
+		iconWidth = 20,
+		innerRef
 	} = props;
 
 	return (
@@ -40,8 +41,8 @@ function TextInputNext(props) {
 				<TouchableIcon
 					resizeMode="contain"
 					source={leftIconSource}
-					height={height}
-					width={width}
+					height={iconHeight}
+					width={iconWidth}
 					imageStyle={{
 						position: 'absolute',
 						left: 10,
@@ -52,6 +53,7 @@ function TextInputNext(props) {
 				/>
 			)}
 			<TextInput
+				ref={innerRef}
 				value={value}
 				style={[styles.inputContainer, inputStyle]}
 				placeholder={placeholder}
@@ -75,8 +77,8 @@ function TextInputNext(props) {
 				<TouchableIcon
 					resizeMode="contain"
 					source={rightIconSource}
-					height={height}
-					width={width}
+					height={iconHeight}
+					width={iconWidth}
 					imageStyle={{
 						position: 'absolute',
 						right: 15,
@@ -135,6 +137,7 @@ TextInputNext.propTypes = {
 	rightIconColor: PropTypes.string,
 	leftIconColor: PropTypes.string,
 	maxLength: PropTypes.number,
-	height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-	width: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+	iconHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	iconWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({ current: PropTypes.any })])
 };

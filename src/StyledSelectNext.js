@@ -2,7 +2,6 @@ import React from 'react';
 import StyledSelect from './StyledSelect';
 import PropTypes from 'prop-types';
 
-
 const StyledSelectNext = ({
 	items,
 	width = 175,
@@ -28,16 +27,16 @@ const StyledSelectNext = ({
 	const containerStyle = {
 		backgroundColor: '#fff',
 		alignItems: 'center',
-		borderWidth: border && 1,
-		borderColor: border && '#D8D8D8',
+		borderWidth: border ? 1 : 0,
+		borderColor: border ? '#D8D8D8' : color,
 		paddingHorizontal: 30,
 		borderRadius: 8,
-		borderBottomWidth: border && 1,
+		borderBottomWidth: border ? 1 : 0,
 		...style
 	};
 	const touchableContainer = {
 		paddingHorizontal: 20,
-		justifyContent: 'space-around',
+		justifyContent: 'space-between',
 		...touchableStyle
 	};
 
