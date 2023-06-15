@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import * as StyledText from './StyledText';
-import Layout from '../constants/Layout';
+import Layout from './constants/Layout';
 import PropTypes from 'prop-types';
 
 export default function FlatListEmpty({ width, containerStyle, textStyle, textColor = 'rgba(4, 4, 21, 0.8)' }) {
