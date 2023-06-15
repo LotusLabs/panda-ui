@@ -10,7 +10,7 @@ const TouchableIcon = ({
 	source,
 	height = 30,
 	width = 30,
-	resizeMode = 'cover',
+	resizeMode = 'contain',
 	resizeMethod = 'scale',
 	opacity = 1
 }) => {
