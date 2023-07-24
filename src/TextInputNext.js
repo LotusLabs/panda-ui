@@ -32,7 +32,8 @@ function TextInputNext(props) {
 		leftIconColor,
 		iconHeight = 20,
 		iconWidth = 20,
-		innerRef
+		innerRef,
+		textAlignVertical
 	} = props;
 
 	return (
@@ -55,7 +56,7 @@ function TextInputNext(props) {
 			<TextInput
 				ref={innerRef}
 				value={value}
-				style={[styles.inputContainer, inputStyle]}
+				style={[styles.inputContainer, { paddingTop: multiline ? 8: 0 }, inputStyle]}
 				placeholder={placeholder}
 				placeholderTextColor={placeholderTextColor}
 				autoCompleteType={autoCompleteType}
@@ -63,6 +64,7 @@ function TextInputNext(props) {
 				onChangeText={onChangeText}
 				backgroundColor={backgroundColor}
 				onSubmitEditing={onSubmitEditing}
+				textAlignVertical={textAlignVertical}
 				autoFocus={autoFocus}
 				editable={editable}
 				maxLength={maxLength}
@@ -95,13 +97,14 @@ function TextInputNext(props) {
 const styles = StyleSheet.create({
 	flexStyle: {
 		flexDirection: 'row',
-		alignItems: 'center'
+		alignItems: 'center',
+		backgroundColor: '#fff'
 	},
 	inputContainer: {
 		width: '100%',
 		height: 45,
 		zIndex: -1,
-		paddingHorizontal: 5,
+		paddingHorizontal: 10,
 		borderWidth: 1,
 		borderRadius: 8,
 		borderColor: '#D8D8D8'
@@ -138,5 +141,6 @@ TextInputNext.propTypes = {
 	maxLength: PropTypes.number,
 	iconHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	iconWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-	innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({ current: PropTypes.any })])
+	innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({ current: PropTypes.any })]),
+	textAlignVertical: PropTypes.string
 };

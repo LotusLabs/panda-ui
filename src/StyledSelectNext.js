@@ -29,13 +29,13 @@ const StyledSelectNext = ({
 		alignItems: 'center',
 		borderWidth: border ? 1 : 0,
 		borderColor: border ? '#D8D8D8' : color,
-		paddingHorizontal: 30,
+		paddingHorizontal: 0,
 		borderRadius: 8,
 		borderBottomWidth: border ? 1 : 0,
 		...style
 	};
 	const touchableContainer = {
-		paddingHorizontal: 20,
+		paddingHorizontal: 10,
 		justifyContent: 'space-between',
 		...touchableStyle
 	};
