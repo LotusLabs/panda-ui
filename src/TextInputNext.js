@@ -13,6 +13,7 @@ function TextInputNext(props) {
 		backgroundColor = '#fff',
 		onChangeText,
 		onSubmitEditing,
+		onKeyPress,
 		autoFocus,
 		editable,
 		maxLength,
@@ -64,6 +65,7 @@ function TextInputNext(props) {
 				onChangeText={onChangeText}
 				backgroundColor={backgroundColor}
 				onSubmitEditing={onSubmitEditing}
+				onKeyPress={onKeyPress}
 				textAlignVertical={textAlignVertical}
 				autoFocus={autoFocus}
 				editable={editable}
@@ -129,6 +131,7 @@ TextInputNext.propTypes = {
 	multiline: PropTypes.bool,
 	autoCapitalize: PropTypes.bool,
 	onChangeText: PropTypes.func,
+	onKeyPress: PropTypes.func,
 	onSubmitEditing: PropTypes.func,
 	leftIconSource: PropTypes.oneOfType([PropTypes.object, PropTypes.node]),
 	rightIconSource: PropTypes.oneOfType([PropTypes.object, PropTypes.node]),
