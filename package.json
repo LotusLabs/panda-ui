@@ -26,7 +26,7 @@
     "react-native-anchor-point": "^1.0.6"
   },
   "peerDependencies": {
-    "@react-native-picker/picker": "2.1.0",
+    "@react-native-picker/picker": "^2.1.0",
     "prop-types": "15.7.2",
     "react": "^17.0.2",
     "react-native": "^0.64.2",
