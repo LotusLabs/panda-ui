@@ -115,7 +115,7 @@ const StyledSelect = props => {
 					{renderValueLabel()}
 				</StyledText.Body1>
 				<View style={{ marginLeft: 10 }}>
-					<MaterialIcons name="keyboard-arrow-down" size={20} color={iconColor || color || placeholder} />
+					<MaterialIcons name="keyboard-arrow-down" size={20} color={iconColor || color || placeholderColor} />
 				</View>
 			</TouchableOpacity>
 			{pickerVisible && (
