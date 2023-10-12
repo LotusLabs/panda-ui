@@ -61,8 +61,7 @@ const CounterInput = (props) => {
 		fontSize: sizes[size].font,
 		lineHeight: sizes[size].lineHeight,
 		width: '100%',
-		textAlign: 'center',
-		border: 0
+		textAlign: 'center'
 	};
 
 	return (
