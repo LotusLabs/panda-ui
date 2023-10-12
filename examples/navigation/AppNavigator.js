@@ -39,7 +39,7 @@ function HomeStack() {
 				headerShown: false
 			}}>
 			<Stack.Screen name="HomeScreen" component={PandaHomeScreen} />
-			{/*<Stack.Screen name="Data" 	component={DataScreen} />*/}
+			{/* <Stack.Screen name="Data" 	component={DataScreen} />*/}
 		</Stack.Navigator>
 	);
 }
@@ -62,13 +62,6 @@ const AppNavigator = () => {
 	return (
 		<NavigationContainer>
 			<Tab.Navigator
-				tabBarOptions={{
-					headerShown: false,
-					activeTintColor,
-					inactiveTintColor,
-					activeBackgroundColor: Colors[theme].tabBarActiveColor,
-					inactiveBackgroundColor: Colors[theme].tabBarInactiveColor
-				}}
 				tabBar={(props) => {
 					return gradient ? (
 						<LinearGradient
@@ -95,6 +88,11 @@ const AppNavigator = () => {
 				}}
 				screenOptions={({ route }) => ({
 					headerShown: false,
+					activeTintColor,
+					inactiveTintColor,
+					activeBackgroundColor: Colors[theme].tabBarActiveColor,
+					inactiveBackgroundColor: Colors[theme].tabBarInactiveColor,
+
 					tabBarActiveTintColor: activeTintColor,
 					tabBarInactiveTintColor: inactiveTintColor,
 					tabBarActiveBackgroundColor: Colors[theme].tabBarActiveColor,
@@ -153,7 +151,7 @@ function PandaUiTabBar({ state, descriptors, navigation, backgroundColor='transp
 		<View style={{ flexDirection: 'row', height: 60, backgroundColor }}>
 			{state.routes.map((route, index) => {
 				const { options } = descriptors[route.key];
-				{/*console.log('options', options);*/}
+				{/* console.log('options', options);*/}
 				const label =
 				options.tabBarLabel !== undefined
 					? options.tabBarLabel

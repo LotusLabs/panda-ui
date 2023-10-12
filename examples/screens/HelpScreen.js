@@ -74,7 +74,7 @@ export default function HelpScreen() {
 					</View>
 				</DoubleCard>
 			</View>
-			<Body3 style={{ textAlign: 'right' }} textColor={Colors[theme].textColor}>{`v${Constants.manifest.version}`}</Body3>
+			<Body3 style={{ textAlign: 'right' }} textColor={Colors[theme].textColor}>{`v${Constants.expoConfig.version}`}</Body3>
 		</SafeAreaView>
 	);
 }
