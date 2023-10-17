@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, TouchableOpacity, Dimensions, Modal, TouchableWithoutFeedback } from 'react-native';
-import { Picker as SelectPicker } from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
 import { MaterialIcons } from '@expo/vector-icons';
 import chroma from 'chroma-js';
 import PropTypes from 'prop-types';
@@ -129,7 +129,7 @@ const StyledSelect = props => {
 								<StyledText.Body1 style={styles.doneBarText}>Done</StyledText.Body1>
 							</TouchableOpacity>
 						</View>
-						<SelectPicker
+						<Picker
 							style={styles.pickerStyle}
 							selectedValue={selected}
 							itemStyle={styles.pickerItemStyle}
@@ -139,7 +139,7 @@ const StyledSelect = props => {
 						>
 							{noPlaceholder ? null : renderPlaceholder()}
 							{renderItems()}
-						</SelectPicker>
+						</Picker>
 					</View>
 				</Modal>
 			)}
