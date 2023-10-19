@@ -6928,9 +6928,9 @@ react-native-gesture-handler@~2.12.0:
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
-react-native-panda-ui@../react-native-panda-ui-0.2.26.tgz:
-  version "0.2.26"
-  resolved "../react-native-panda-ui-0.2.26.tgz#2730de78553b3ed7eddc6049ba527b7d4dcccaa0"
+react-native-panda-ui@../react-native-panda-ui-0.3.0.tgz:
+  version "0.3.0"
+  resolved "../react-native-panda-ui-0.3.0.tgz#dfa24d46a720ef3772d7a6683e5e663d549e2417"
   dependencies:
     "@react-native-picker/picker" "^2.5.1"
     chroma "^0.0.1"
