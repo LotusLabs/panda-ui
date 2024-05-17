@@ -26,7 +26,8 @@ const StyledSelect = props => {
 		onDonePress = () => {},
 		containerStyle,
 		touchableStyle,
-		iconColor
+		iconColor,
+		toggleValidation
 	} = props;
 
 	const [selected, setSelected] = useState(value);
@@ -66,8 +67,15 @@ const StyledSelect = props => {
 		return placeholder || '';
 	};
 
-	const togglePicker = () => {
-		setPickerVisible(prev => !prev);
+	const togglePicker = async () => {
+		if (toggleValidation && !pickerVisible) {
+			const shouldOpen = await toggleValidation();
+			if (shouldOpen) {
+				setPickerVisible(true);
+			}
+		} else {
+			setPickerVisible(prev => !prev);
+		}
 	};
 
 	const renderPlaceholder = () => {
@@ -219,5 +227,6 @@ StyledSelect.propTypes = {
 	noPlaceholder: PropTypes.bool,
 	containerStyle: PropTypes.object,
 	touchableStyle: PropTypes.object,
-	iconColor: PropTypes.string
+	iconColor: PropTypes.string,
+	toggleValidation: PropTypes.func
 };

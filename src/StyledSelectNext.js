@@ -22,7 +22,8 @@ const StyledSelectNext = ({
 	iconColor = '#3C7378',
 	separatorColor,
 	backgroundColor,
-	onDonePress
+	onDonePress,
+	toggleValidation
 }) => {
 	const containerStyle = {
 		backgroundColor: '#fff',
@@ -62,6 +63,7 @@ const StyledSelectNext = ({
 			noPlaceholder={noPlaceholder}
 			onDonePress={onDonePress}
 			iconColor={iconColor}
+			toggleValidation={toggleValidation}
 		/>
 	);
 };
@@ -95,5 +97,6 @@ StyledSelectNext.propTypes = {
 	iconColor: PropTypes.string,
 	placeholderColor: PropTypes.string,
 	selectedValue: PropTypes.string,
-	onDonePress: PropTypes.func
+	onDonePress: PropTypes.func,
+	toggleValidation: PropTypes.func
 };
