@@ -134,7 +134,8 @@ const StyledSelect = props => {
 							selectedValue={selected}
 							itemStyle={styles.pickerItemStyle}
 							onValueChange={value => {
-								enableActionOnValueChange ? performActionOnValueChange(value) : setSelected(value);
+								const parsedValue = value && value !== 'null' ? value : null;
+								enableActionOnValueChange ? performActionOnValueChange(parsedValue) : setSelected(parsedValue);
 							}}
 						>
 							{noPlaceholder ? null : renderPlaceholder()}
