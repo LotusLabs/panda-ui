@@ -60,14 +60,7 @@ function App() {
 
 	useEffect(() => {
 		async function prepare() {
-			try {
-				// Pre-load fonts, make any API calls you need to do here
-			} catch (e) {
-				console.warn(e);
-			} finally {
-				// Tell the application to render
-				setAppIsReady(true);
-			}
+			setAppIsReady(true);
 		}
 
 		prepare();
