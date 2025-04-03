@@ -1,23 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-	TouchableOpacity,
-	Text
-} from 'react-native';
-
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faChevronUp } from '@fortawesome/pro-solid-svg-icons';
-import { faChevronDown } from '@fortawesome/pro-solid-svg-icons';
+import { TouchableOpacity, Text } from 'react-native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 // import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const PADDING = 10;
 
-const SortColumnFlex = (props) => {
+const SortColumnFlex = props => {
 	const {
 		column,
 		i,
-		columnCount=1,
+		columnCount = 1,
 		sortConfig,
 		onSortChange,
 		borderRadiusLeft,
@@ -85,8 +79,6 @@ const SortColumnFlex = (props) => {
 		borderTopRightRadius: borderRadiusRight > 0 ? borderRadiusRight + PADDING : 0
 	};
 
-
-
 	/**
 	 * Getter for text styles.
 	 *
@@ -98,9 +90,9 @@ const SortColumnFlex = (props) => {
 	 */
 	function getTextStyle(active, flexGrow, i) {
 		const baseStyle = active ? activeTextStyle : commonTextStyle;
-		const leftBorderStyleObj =  i === 0  ? leftBorderTextStyle : undefined;
-		const rightBorderStyleObj =  i === columnCount - 1 ? rightBorderTextStyle : undefined;
-		const middleBorderStyleObj =  i > 0 && i < columnCount - 1 ? middleBorderStyle : undefined;
+		const leftBorderStyleObj = i === 0 ? leftBorderTextStyle : undefined;
+		const rightBorderStyleObj = i === columnCount - 1 ? rightBorderTextStyle : undefined;
+		const middleBorderStyleObj = i > 0 && i < columnCount - 1 ? middleBorderStyle : undefined;
 
 		return {
 			...baseStyle,
@@ -128,9 +120,9 @@ const SortColumnFlex = (props) => {
 	 */
 	function getViewStyle(active, flexGrow, i) {
 		const baseStyle = active ? activeViewStyle : commonViewStyle;
-		const leftBorderStyleObj =  i === 0  ? leftBorderViewStyle : undefined;
-		const rightBorderStyleObj =  i === columnCount - 1 ? rightBorderViewStyle : undefined;
-		const middleBorderStyleObj =  i > 0 && i < columnCount - 1 ? middleBorderStyle : undefined;
+		const leftBorderStyleObj = i === 0 ? leftBorderViewStyle : undefined;
+		const rightBorderStyleObj = i === columnCount - 1 ? rightBorderViewStyle : undefined;
+		const middleBorderStyleObj = i > 0 && i < columnCount - 1 ? middleBorderStyle : undefined;
 
 		return {
 			...baseStyle,
@@ -153,13 +145,11 @@ const SortColumnFlex = (props) => {
 			style={getViewStyle(isSorted, column.width, i)}
 			key={sortKey}
 			onPress={() => {
-				!noSort  &&
-				onSortChange({
-					key: sortKey,
-					direction: !isSorted ? 'asc' : (
-						sortConfig.direction === 'asc' ? 'desc' : 'asc'
-					)
-				});
+				!noSort &&
+					onSortChange({
+						key: sortKey,
+						direction: !isSorted ? 'asc' : sortConfig.direction === 'asc' ? 'desc' : 'asc'
+					});
 			}}
 		>
 			{
@@ -173,33 +163,34 @@ const SortColumnFlex = (props) => {
 			}
 
 			<Text
-				style={[
-					getTextStyle(isSorted, column.width, i),
-					{ textAlign: column?.textAlign ? column.textAlign : 'left' }
-				]}
+				style={[getTextStyle(isSorted, column.width, i), { textAlign: column?.textAlign ? column.textAlign : 'left' }]}
 				key={sortKey + '1'}
 			>
 				{column.label}
 			</Text>
 
-			{ isSorted && sortConfig.direction === 'asc' ?
-				<FontAwesomeIcon
+			{isSorted && sortConfig.direction === 'asc' ? (
+				<FontAwesome5
 					key={sortKey + '2'}
-					icon={faChevronUp}
+					name="chevron-up"
 					size={12}
 					color={sortIndicatorColor}
-					style={{ padingLeft: 10, padingRight: 10 }}
+					style={{ paddingLeft: 10, paddingRight: 10 }}
 				/>
-				: false}
-			{ isSorted && sortConfig.direction === 'desc' ?
-				<FontAwesomeIcon
+			) : (
+				false
+			)}
+			{isSorted && sortConfig.direction === 'desc' ? (
+				<FontAwesome5
 					key={sortKey + '3'}
-					icon={faChevronDown}
+					name="chevron-down"
 					size={12}
 					color={sortIndicatorColor}
-					style={{ padingLeft: 10, padingRight: 10 }}
+					style={{ paddingLeft: 10, paddingRight: 10 }}
 				/>
-				: false}
+			) : (
+				false
+			)}
 		</TouchableOpacity>
 	);
 };
@@ -224,10 +215,7 @@ SortColumnFlex.propTypes = {
 	borderRadiusLeft: PropTypes.number,
 	borderRadiusRight: PropTypes.number,
 	noSort: PropTypes.bool,
-	height: PropTypes.oneOfType([
-		PropTypes.string,
-		PropTypes.number
-	]),
+	height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	sortIndicatorColor: PropTypes.string,
 	backgroundColor: PropTypes.string,
 	columnCount: PropTypes.number,

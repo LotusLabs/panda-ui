@@ -7,16 +7,12 @@ import { StatusBar } from 'expo-status-bar';
 import { LinearGradient } from 'expo-linear-gradient';
 import Constants from 'expo-constants';
 
-import { configureFontAwesomePro } from 'react-native-fontawesome-pro';
 import chroma from 'chroma-js';
 
 import Colors from './constants/Colors';
 // import { ToastContextProvider } from './contexts/ToastContext';
 import { ThemeContextProvider } from './contexts/ThemeContext';
-import {
-	useThemeContext,
-	themeSelector
-} from './contexts/ThemeContext';
+import { useThemeContext, themeSelector } from './contexts/ThemeContext';
 import AppNavigator from './navigation/AppNavigator';
 import ErrorFallback from './components/ErrorFallback';
 import ThemeSelect from './components/ThemeSelect';
@@ -31,10 +27,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function AppWrap() {
 	return (
-		<ErrorBoundary
-			FallbackComponent={ErrorFallback}
-			onError={errorBoundaryHandler}
-		>
+		<ErrorBoundary FallbackComponent={ErrorFallback} onError={errorBoundaryHandler}>
 			<ThemeContextProvider>
 				<App />
 			</ThemeContextProvider>
@@ -65,11 +58,9 @@ function App() {
 	]);
 	// ------- END OF WARNING SUPPRESSION
 
-
 	useEffect(() => {
 		async function prepare() {
 			try {
-				configureFontAwesomePro();
 				// Pre-load fonts, make any API calls you need to do here
 			} catch (e) {
 				console.warn(e);
@@ -83,10 +74,13 @@ function App() {
 	}, []);
 
 	const hasGradient = Colors[theme].statusBarGradient && Colors[theme].statusBarGradient.length > 1;
-	const statusBarStyle = hasGradient ? chroma.contrast(Colors[theme].statusBarGradient[0], '#fff') > 5
-		? 'light' : 'dark' :
-		chroma.contrast(Colors[theme].statusBarColor, '#fff') > 5
-			? 'light' : 'dark';
+	const statusBarStyle = hasGradient
+		? chroma.contrast(Colors[theme].statusBarGradient[0], '#fff') > 5
+			? 'light'
+			: 'dark'
+		: chroma.contrast(Colors[theme].statusBarColor, '#fff') > 5
+		? 'light'
+		: 'dark';
 
 	const onLayoutRootView = useCallback(async () => {
 		if (appIsReady) {
@@ -104,56 +98,37 @@ function App() {
 	}
 
 	return (
-		<View
-			style={container}
-			onLayout={onLayoutRootView}
-		>
-			{ hasGradient ?
-				(
-					<>
-						<LinearGradient
-							colors={Colors[theme].statusBarGradient}
-							start={[0, 0]}
-							end={[1, 1]}
-							style={{
-								width: '100%',
-								height: Constants.statusBarHeight
-							}}
-						>
-							<StatusBar
-								translucent={true}
-								backgroundColor={'transparent'}
-								style={statusBarStyle}
-							/>
-						</LinearGradient>
-						<View style={{ marginHorizontal: 10, marginTop: Layout.screen.width > 360 ? 30 : 0, alignItems: 'center' }}>
-							<Image
-								source={require('./assets/panda-ui-logo.png')}
-								style={{ height: 150, resizeMode: 'contain' }}
-							/>
-							<ThemeSelect />
-						</View>
-					</>
-				) : (
-					<>
-						<View style={{ height: Platform.OS === 'ios' ? 40 : 0, backgroundColor: Colors[theme].statusBarColor }}>
-							<StatusBar
-								translucent={false}
-								backgroundColor={Colors[theme].statusBarColor}
-								style={statusBarStyle}
-							/>
-						</View>
-						<View style={{ marginHorizontal: 10, marginTop: Layout.screen.width > 360 ? 30 : 0, alignItems: 'center' }}>
-							<Image
-								source={require('./assets/panda-ui-logo.png')}
-								style={{ height: 150, resizeMode: 'contain' }}
-							/>
-							<ThemeSelect />
-							<View style={{ marginBottom: Layout.screen.width > 360 ? 30 : 0 }} />
-						</View>
-					</>
-				)
-			}
+		<View style={container} onLayout={onLayoutRootView}>
+			{hasGradient ? (
+				<>
+					<LinearGradient
+						colors={Colors[theme].statusBarGradient}
+						start={[0, 0]}
+						end={[1, 1]}
+						style={{
+							width: '100%',
+							height: Constants.statusBarHeight
+						}}
+					>
+						<StatusBar translucent={true} backgroundColor={'transparent'} style={statusBarStyle} />
+					</LinearGradient>
+					<View style={{ marginHorizontal: 10, marginTop: Layout.screen.width > 360 ? 30 : 0, alignItems: 'center' }}>
+						<Image source={require('./assets/panda-ui-logo.png')} style={{ height: 150, resizeMode: 'contain' }} />
+						<ThemeSelect />
+					</View>
+				</>
+			) : (
+				<>
+					<View style={{ height: Platform.OS === 'ios' ? 40 : 0, backgroundColor: Colors[theme].statusBarColor }}>
+						<StatusBar translucent={false} backgroundColor={Colors[theme].statusBarColor} style={statusBarStyle} />
+					</View>
+					<View style={{ marginHorizontal: 10, marginTop: Layout.screen.width > 360 ? 30 : 0, alignItems: 'center' }}>
+						<Image source={require('./assets/panda-ui-logo.png')} style={{ height: 150, resizeMode: 'contain' }} />
+						<ThemeSelect />
+						<View style={{ marginBottom: Layout.screen.width > 360 ? 30 : 0 }} />
+					</View>
+				</>
+			)}
 			<AppNavigator />
 		</View>
 	);
