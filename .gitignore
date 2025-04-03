@@ -21,3 +21,4 @@ ehthumbs.db
 Thumbs.db
 examples/.expo/packager-info.json
 # *.tgz
+*.expo

@@ -1,27 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Text, View } from 'react-native';
-import ProIcon from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import Card from './Card';
 
-const CounterInput = (props) => {
+const CounterInput = props => {
 	const {
 		value,
 		onChange,
 		renderLabel,
-		counterColor='#000',
+		counterColor = '#000',
 		containerStyle,
 		backCardColor,
 		backCardGradient,
-		incrementBackgroundColor='#fff',
-		decrementBackgroundColor='#fff',
-		incrementTextColor='#000',
-		decrementTextColor='#000',
-		variationNumberOfCards=1,
-		cardPadding=10,
-		size='standard',
-		borderRadius=50
+		incrementBackgroundColor = '#fff',
+		decrementBackgroundColor = '#fff',
+		incrementTextColor = '#000',
+		decrementTextColor = '#000',
+		variationNumberOfCards = 1,
+		cardPadding = 10,
+		size = 'standard',
+		borderRadius = 50
 	} = props;
 
 	const increment = () => onChange(value + 1);
@@ -34,7 +34,7 @@ const CounterInput = (props) => {
 		width: '100%',
 		textAlign: 'center'
 	};
-	const container  = {
+	const container = {
 		flexDirection: 'row',
 		alignItems: 'center',
 		padding: cardPadding / 2,
@@ -43,53 +43,22 @@ const CounterInput = (props) => {
 
 	return (
 		<View style={container}>
-			{ variationNumberOfCards === 2 ?
-				(
+			{variationNumberOfCards === 2 ? (
+				<Card
+					backgroundColor={backCardColor}
+					elevation={5}
+					height={size === 'large' ? 50 : size === 'standard' ? 40 : 35}
+					width={size === 'large' ? 50 : size === 'standard' ? 40 : 35}
+					style={{ alignItems: 'center', justifyContent: 'center' }}
+					borderRadius={borderRadius}
+					gradient={backCardGradient && backCardGradient.length > 1 ? backCardGradient : []}
+				>
 					<Card
-						backgroundColor={backCardColor}
-						elevation={5}
-						height={size === 'large' ? 50 : size === 'standard' ? 40 : 35}
-						width={size === 'large' ? 50 : size === 'standard' ? 40 : 35}
-						style={{ alignItems: 'center', justifyContent: 'center' }}
-						borderRadius={borderRadius}
-						gradient={backCardGradient && backCardGradient.length > 1 ? backCardGradient : []}
-					>
-						<Card
-							backgroundColor={incrementBackgroundColor}
-							elevation={8}
-							height={size === 'large' ? 50 - cardPadding : size === 'standard' ? 40 - cardPadding : 35 - cardPadding}
-							width={size === 'large' ? 50 - cardPadding : size === 'standard' ? 40 - cardPadding : 35 - cardPadding}
-							style={{ alignItems: 'center', justifyContent: 'center', marginBottom: cardPadding / 2 }}
-							borderRadius={borderRadius}
-							onPress={decrement}
-						>
-							<View
-								style={{
-									backgroundColor: decrementBackgroundColor,
-									height: size === 'large' ? 50 - cardPadding : size === 'standard' ? 40 - cardPadding : 35 - cardPadding,
-									width: size === 'large' ? 50 - cardPadding : size === 'standard' ? 40 - cardPadding : 35 - cardPadding,
-									overflow: 'hidden',
-									borderRadius: borderRadius,
-									alignSelf: 'center',
-									alignItems: 'center',
-									justifyContent: 'center',
-									marginTop: size === 'large' ? 4.5 : size === 'standard' ? 3.5 : 2.5 }}
-							>
-								<ProIcon
-									size={size === 'large' ? 21 : size === 'standard' ? 16 : 11}
-									name="minus"
-									color={decrementTextColor}
-								/>
-							</View>
-						</Card>
-					</Card>
-				) : (
-					<Card
-						backgroundColor={backCardColor}
-						elevation={5}
+						backgroundColor={incrementBackgroundColor}
+						elevation={8}
 						height={size === 'large' ? 50 - cardPadding : size === 'standard' ? 40 - cardPadding : 35 - cardPadding}
 						width={size === 'large' ? 50 - cardPadding : size === 'standard' ? 40 - cardPadding : 35 - cardPadding}
-						style={{ alignItems: 'center', justifyContent: 'center' }}
+						style={{ alignItems: 'center', justifyContent: 'center', marginBottom: cardPadding / 2 }}
 						borderRadius={borderRadius}
 						onPress={decrement}
 					>
@@ -97,23 +66,53 @@ const CounterInput = (props) => {
 							style={{
 								backgroundColor: decrementBackgroundColor,
 								height: size === 'large' ? 50 - cardPadding : size === 'standard' ? 40 - cardPadding : 35 - cardPadding,
-								width:  size === 'large' ? 50 - cardPadding : size === 'standard' ? 40 - cardPadding : 35 - cardPadding,
+								width: size === 'large' ? 50 - cardPadding : size === 'standard' ? 40 - cardPadding : 35 - cardPadding,
 								overflow: 'hidden',
 								borderRadius: borderRadius,
 								alignSelf: 'center',
 								alignItems: 'center',
-								justifyContent: 'center' }}
+								justifyContent: 'center',
+								marginTop: size === 'large' ? 4.5 : size === 'standard' ? 3.5 : 2.5
+							}}
 						>
-
-							<ProIcon
+							<FontAwesome5
 								size={size === 'large' ? 21 : size === 'standard' ? 16 : 11}
 								name="minus"
 								color={decrementTextColor}
 							/>
 						</View>
 					</Card>
-				)
-			}
+				</Card>
+			) : (
+				<Card
+					backgroundColor={backCardColor}
+					elevation={5}
+					height={size === 'large' ? 50 - cardPadding : size === 'standard' ? 40 - cardPadding : 35 - cardPadding}
+					width={size === 'large' ? 50 - cardPadding : size === 'standard' ? 40 - cardPadding : 35 - cardPadding}
+					style={{ alignItems: 'center', justifyContent: 'center' }}
+					borderRadius={borderRadius}
+					onPress={decrement}
+				>
+					<View
+						style={{
+							backgroundColor: decrementBackgroundColor,
+							height: size === 'large' ? 50 - cardPadding : size === 'standard' ? 40 - cardPadding : 35 - cardPadding,
+							width: size === 'large' ? 50 - cardPadding : size === 'standard' ? 40 - cardPadding : 35 - cardPadding,
+							overflow: 'hidden',
+							borderRadius: borderRadius,
+							alignSelf: 'center',
+							alignItems: 'center',
+							justifyContent: 'center'
+						}}
+					>
+						<FontAwesome5
+							size={size === 'large' ? 21 : size === 'standard' ? 16 : 11}
+							name="minus"
+							color={decrementTextColor}
+						/>
+					</View>
+				</Card>
+			)}
 			<View
 				style={{
 					alignItems: 'center',
@@ -125,54 +124,23 @@ const CounterInput = (props) => {
 			>
 				<Text style={labelStyle}>{renderLabel ? renderLabel(value) : value}</Text>
 			</View>
-			{ variationNumberOfCards === 2 ?
-				(
+			{variationNumberOfCards === 2 ? (
+				<Card
+					backgroundColor={backCardColor}
+					gradient={backCardGradient && backCardGradient.length > 1 ? backCardGradient : []}
+					elevation={5}
+					height={size === 'large' ? 50 : size === 'standard' ? 40 : 35}
+					width={size === 'large' ? 50 : size === 'standard' ? 40 : 35}
+					style={{ alignItems: 'center', justifyContent: 'center' }}
+					borderRadius={borderRadius}
+				>
 					<Card
-						backgroundColor={backCardColor}
-						gradient={backCardGradient && backCardGradient.length > 1 ? backCardGradient : []}
-						elevation={5}
-						height={size === 'large' ? 50 : size === 'standard' ? 40 : 35}
-						width={size === 'large' ? 50 : size === 'standard' ? 40 : 35}
-						style={{ alignItems: 'center', justifyContent: 'center' }}
-						borderRadius={borderRadius}
-					>
-						<Card
-							solid={false}
-							backgroundColor={incrementBackgroundColor}
-							elevation={8}
-							height={size === 'large' ? 50 - cardPadding : size === 'standard' ? 40 - cardPadding : 35 - cardPadding}
-							width={size === 'large' ? 50 - cardPadding : size === 'standard' ? 40 - cardPadding : 35 - cardPadding}
-							style={{ alignItems: 'center', justifyContent: 'center', marginBottom: cardPadding / 2 }}
-							borderRadius={borderRadius}
-							onPress={increment}
-						>
-							<View
-								style={{
-									backgroundColor: incrementBackgroundColor,
-									height: size === 'large' ? 50 - cardPadding : size === 'standard' ? 40 - cardPadding : 35 - cardPadding,
-									width: size === 'large' ? 50 - cardPadding : size === 'standard' ? 40 - cardPadding : 35 - cardPadding,
-									overflow: 'hidden',
-									borderRadius: borderRadius,
-									alignSelf: 'center',
-									alignItems: 'center',
-									justifyContent: 'center',
-									marginTop: size === 'large' ? 4.5 : size === 'standard' ? 3.5 : 2.5 }}
-							>
-								<ProIcon
-									size={size === 'large' ? 21 : size === 'standard' ? 16 : 11}
-									name="plus"
-									color={incrementTextColor}
-								/>
-							</View>
-						</Card>
-					</Card>
-				) : (
-					<Card
-						backgroundColor={backCardColor}
-						elevation={5}
+						solid={false}
+						backgroundColor={incrementBackgroundColor}
+						elevation={8}
 						height={size === 'large' ? 50 - cardPadding : size === 'standard' ? 40 - cardPadding : 35 - cardPadding}
 						width={size === 'large' ? 50 - cardPadding : size === 'standard' ? 40 - cardPadding : 35 - cardPadding}
-						style={{ alignItems: 'center', justifyContent: 'center' }}
+						style={{ alignItems: 'center', justifyContent: 'center', marginBottom: cardPadding / 2 }}
 						borderRadius={borderRadius}
 						onPress={increment}
 					>
@@ -185,17 +153,48 @@ const CounterInput = (props) => {
 								borderRadius: borderRadius,
 								alignSelf: 'center',
 								alignItems: 'center',
-								justifyContent: 'center' }}
+								justifyContent: 'center',
+								marginTop: size === 'large' ? 4.5 : size === 'standard' ? 3.5 : 2.5
+							}}
 						>
-							<ProIcon
+							<FontAwesome5
 								size={size === 'large' ? 21 : size === 'standard' ? 16 : 11}
 								name="plus"
 								color={incrementTextColor}
 							/>
 						</View>
 					</Card>
-				)
-			}
+				</Card>
+			) : (
+				<Card
+					backgroundColor={backCardColor}
+					elevation={5}
+					height={size === 'large' ? 50 - cardPadding : size === 'standard' ? 40 - cardPadding : 35 - cardPadding}
+					width={size === 'large' ? 50 - cardPadding : size === 'standard' ? 40 - cardPadding : 35 - cardPadding}
+					style={{ alignItems: 'center', justifyContent: 'center' }}
+					borderRadius={borderRadius}
+					onPress={increment}
+				>
+					<View
+						style={{
+							backgroundColor: incrementBackgroundColor,
+							height: size === 'large' ? 50 - cardPadding : size === 'standard' ? 40 - cardPadding : 35 - cardPadding,
+							width: size === 'large' ? 50 - cardPadding : size === 'standard' ? 40 - cardPadding : 35 - cardPadding,
+							overflow: 'hidden',
+							borderRadius: borderRadius,
+							alignSelf: 'center',
+							alignItems: 'center',
+							justifyContent: 'center'
+						}}
+					>
+						<FontAwesome5
+							size={size === 'large' ? 21 : size === 'standard' ? 16 : 11}
+							name="plus"
+							color={incrementTextColor}
+						/>
+					</View>
+				</Card>
+			)}
 		</View>
 	);
 };
