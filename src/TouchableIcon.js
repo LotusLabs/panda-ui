@@ -4,6 +4,7 @@ import { Image } from 'react-native';
 import PropTypes from 'prop-types';
 
 const TouchableIcon = ({
+	onLongPress,
 	onPress,
 	touchableStyle,
 	imageStyle,
@@ -15,7 +16,7 @@ const TouchableIcon = ({
 	opacity = 1
 }) => {
 	return (
-		<TouchableOpacity onPress={onPress} style={touchableStyle}>
+		<TouchableOpacity onPress={onPress} onLongPress={onLongPress} style={touchableStyle}>
 			<Image
 				source={source}
 				style={{ height, width, ...imageStyle }}
@@ -31,6 +32,7 @@ export default TouchableIcon;
 
 TouchableIcon.propTypes = {
 	onPress: PropTypes.func,
+	onLongPress: PropTypes.func,
 	source: PropTypes.oneOfType([PropTypes.object, PropTypes.node]),
 	touchableStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 	imageStyle: PropTypes.object,
