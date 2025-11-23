@@ -4,7 +4,9 @@ import { setSessionState } from '../utils/apiHandler';
 const ThemeContext = React.createContext();
 
 const initialState = {
+	id: 0,
 	theme: 'default',
+	animal: '',
 	inverted: false,
 	gradient: false
 };
@@ -65,6 +67,7 @@ export const useThemeContext = () => {
 };
 
 
+export const characterSelector = state => state;
 export const baseThemeSelector = state => state.theme;
 export const invertedSelector = state => state.inverted;
 export const gradientSelector = state => state.gradient;

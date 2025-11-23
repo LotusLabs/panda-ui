@@ -1,43 +1,21 @@
 import React from 'react';
-import {
-	StyleSheet,
-	Text,
-	View,
-	TouchableOpacity,
-	Platform
-} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 import { SvgCss } from 'react-native-svg';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import {
-	faFrownOpen as farFrownOpen,
-	faFrown as farFrown,
-	faMeh as farMeh,
-	faSmile as farSmile,
-	faGrin as farGrin
-} from '@fortawesome/pro-regular-svg-icons';
-import {
-	faFrownOpen as fasFrownOpen,
-	faFrown as fasFrown,
-	faMeh as fasMeh,
-	faSmile as fasSmile,
-	faGrin as fasGrin
-} from '@fortawesome/pro-solid-svg-icons';
+import openFrownPanda from './assets/images/openFrownPanda.svg';
+import _openFrownPanda from './assets/images/_openFrownPanda.svg';
+import frownPanda from './assets/images/frownPanda.svg';
+import _frownPanda from './assets/images/_frownPanda.svg';
+import mehPanda from './assets/images/mehPanda.svg';
+import _mehPanda from './assets/images/_mehPanda.svg';
+import smilePanda from './assets/images/smilePanda.svg';
+import _smilePanda from './assets/images/_smilePanda.svg';
+import grinPanda from './assets/images/grinPanda.svg';
+import _grinPanda from './assets/images/_grinPanda.svg';
 
-
-import openFrownPanda 	from './assets/images/openFrownPanda.svg';
-import _openFrownPanda 	from './assets/images/_openFrownPanda.svg';
-import frownPanda 		from './assets/images/frownPanda.svg';
-import _frownPanda 		from './assets/images/_frownPanda.svg';
-import mehPanda 		from './assets/images/mehPanda.svg';
-import _mehPanda 		from './assets/images/_mehPanda.svg';
-import smilePanda 		from './assets/images/smilePanda.svg';
-import _smilePanda 		from './assets/images/_smilePanda.svg';
-import grinPanda 		from './assets/images/grinPanda.svg';
-import _grinPanda 		from './assets/images/_grinPanda.svg';
-
-export default function Feedback({ theme='fontAwesome', rating, setRating, style, title='' }) {
+export default function Feedback({ theme = 'fontAwesome', rating, setRating, style, title = '' }) {
 	const inputFor = {
 		textAlign: 'left',
 		paddingHorizontal: 10,
@@ -60,38 +38,50 @@ export default function Feedback({ theme='fontAwesome', rating, setRating, style
 	return (
 		<View style={row}>
 			<View style={styles.starColumn}>
-				<Text style={inputFor}>
-					{title}
-				</Text>
+				<Text style={inputFor}>{title}</Text>
 				<View
 					style={{
 						flexDirection: 'row',
 						alignItems: 'center',
 						justifyContent: 'center',
 						marginTop: 10
-					}}>
-					{theme ===  'fontAwesome' && // frown-open, frown, meh, smile, grin faFrownOpen, faFrown, faMeh, faSmile, faGrin
+					}}
+				>
+					{theme === 'fontAwesome' && // frown-open, frown, meh, smile, grin faFrownOpen, faFrown, faMeh, faSmile, faGrin
 						[
-							{ rating: 1, color: '#dc1414', icon: farFrownOpen, selectedIcon: fasFrownOpen },
-							{ rating: 2, color: '#fb880a', icon: farFrown, selectedIcon: fasFrown },
-							{ rating: 3, color: '#edc41c', icon: farMeh, selectedIcon: fasMeh },
-							{ rating: 4, color: '#57c529', icon: farSmile, selectedIcon: fasSmile },
-							{ rating: 5, color: '#2eb733', icon: farGrin, selectedIcon: fasGrin }
+							{ rating: 1, color: '#dc1414', icon: 'frown-open' },
+							{ rating: 2, color: '#fb880a', icon: 'frown' },
+							{ rating: 3, color: '#edc41c', icon: 'meh' },
+							{ rating: 4, color: '#57c529', icon: 'smile' },
+							{ rating: 5, color: '#2eb733', icon: 'grin' }
 						].map(value => (
-							<TouchableOpacity
-								onPress={() => setRating(value.rating)}
-								key={value.rating}
-							>
-								<FontAwesomeIcon
-									style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginHorizontal: 10 }}
-									icon={rating === value.rating ? value.selectedIcon : value.icon}
+							<TouchableOpacity onPress={() => setRating(value.rating)} key={value.rating}>
+								<FontAwesome5
+									style={{
+										width: '100%',
+										flexDirection: 'row',
+										alignItems: 'center',
+										justifyContent: 'center',
+										marginHorizontal: 10
+									}}
+									name={value.icon}
 									size={36}
-									color={rating === value.rating ? value.color : (rating === 0 ? 'grey' : 'lightgrey')} />
-								<View style={{ height: 5, width: '100%', backgroundColor: value.color, marginTop: 5, alignItems: 'center', justifyContent: 'center' }} />
+									color={rating === value.rating ? value.color : rating === 0 ? 'grey' : 'lightgrey'}
+									solid={rating === value.rating}
+								/>
+								<View
+									style={{
+										height: 5,
+										width: '100%',
+										backgroundColor: value.color,
+										marginTop: 5,
+										alignItems: 'center',
+										justifyContent: 'center'
+									}}
+								/>
 							</TouchableOpacity>
-						))
-					}
-					{theme ===  'panda' && // frown-open, frown, meh, smile, grin faFrownOpen, faFrown, faMeh, faSmile, faGrin
+						))}
+					{theme === 'panda' && // frown-open, frown, meh, smile, grin faFrownOpen, faFrown, faMeh, faSmile, faGrin
 						[
 							{ rating: 1, color: '#dc1414', icon: openFrownPanda, selectedIcon: _openFrownPanda },
 							{ rating: 2, color: '#fb880a', icon: frownPanda, selectedIcon: _frownPanda },
@@ -116,11 +106,19 @@ export default function Feedback({ theme='fontAwesome', rating, setRating, style
 										height={Platform.OS === 'ios' ? 30 : 30}
 										width={Platform.OS === 'ios' ? 75 : 75}
 									/>
-									<View style={{ height: 5, width: '100%', backgroundColor: value.color, marginTop:  Platform.OS === 'ios' ? 10 : 5, alignItems: 'center', justifyContent: 'center' }} />
+									<View
+										style={{
+											height: 5,
+											width: '100%',
+											backgroundColor: value.color,
+											marginTop: Platform.OS === 'ios' ? 10 : 5,
+											alignItems: 'center',
+											justifyContent: 'center'
+										}}
+									/>
 								</TouchableOpacity>
 							);
-						})
-					}
+						})}
 				</View>
 			</View>
 		</View>

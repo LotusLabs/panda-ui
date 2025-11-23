@@ -5,9 +5,6 @@ import {
 	SafeAreaView
 } from 'react-native';
 
-// Expo imports
-import { StatusBar } from 'expo-status-bar';
-
 // Panda Imports
 import {
 	Card,
@@ -29,7 +26,7 @@ export default function OptnScreen() {
 	const [rating, setRating] = useState(0);
 
 	return (
-		<SafeAreaView style={{ flex: 1, marginTop: StatusBar.height, justifyContent: 'center', alignItems: 'center', backgroundColor: Colors[theme].backgroundColor }}>
+		<SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Colors[theme].backgroundColor }}>
 			<View style={[styles.header, { paddingTop: 6 }]}>
 				<H1 textColor={Colors[theme].tintColor}>Panda UI</H1>
 			</View>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, TouchableOpacity, Dimensions, Modal, TouchableWithoutFeedback } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import Icon from '@expo/vector-icons/FontAwesome5';
+import { MaterialIcons } from '@expo/vector-icons';
 import chroma from 'chroma-js';
 import PropTypes from 'prop-types';
 import * as StyledText from './StyledText';
@@ -22,7 +22,11 @@ const StyledSelect = props => {
 		placeholderBold,
 		fontSize,
 		placeholder,
-		noPlaceholder
+		noPlaceholder,
+		onDonePress = () => {},
+		containerStyle,
+		touchableStyle,
+		iconColor
 	} = props;
 
 	const [selected, setSelected] = useState(value);
@@ -38,14 +42,14 @@ const StyledSelect = props => {
 	};
 
 	const RNPickerWrapper = {
-		fontFamily: 'DMSans-Regular',
 		borderBottomWidth: separatorColor ? 1 : 0,
 		borderBottomColor: separatorColor,
 		overflow: 'hidden',
 		width: width,
 		height: height,
 		justifyContent: 'center',
-		alignItems: 'flex-start'
+		alignItems: 'flex-start',
+		...containerStyle
 	};
 
 	const placeholderColor = chroma.contrast(backgroundColor, '#fff') > 5 ? '#fff' : '#000';
@@ -53,10 +57,10 @@ const StyledSelect = props => {
 	// get label
 	const renderValueLabel = () => {
 		// if value is set, loop items to find label
-		if (selected) {
-			const label = items.find(item => item.value === selected);
-			if (label) {
-				return label.label;
+		if (value) {
+			const item = items.find(item => item.value === value);
+			if (item !== undefined) {
+				return item.label;
 			}
 		}
 		return placeholder || '';
@@ -82,21 +86,24 @@ const StyledSelect = props => {
 	const onDone = () => {
 		onValueChange(selected);
 		setPickerVisible(false);
+		onDonePress(selected);
 	};
 
 	return (
 		<View style={RNPickerWrapper}>
 			<TouchableOpacity
 				onPress={togglePicker}
-				style={{
-					// backgroundColor: 'salmon',
-					width,
-					height,
-					paddingHorizontal: 10,
-					flexDirection: 'row',
-					alignItems: 'center',
-					justifyContent: 'space-between'
-				}}
+				style={[
+					{
+						width,
+						height,
+						paddingHorizontal: 10,
+						flexDirection: 'row',
+						alignItems: 'center',
+						justifyContent: 'space-between'
+					},
+					touchableStyle
+				]}
 			>
 				<StyledText.Body1
 					style={{
@@ -107,12 +114,12 @@ const StyledSelect = props => {
 				>
 					{renderValueLabel()}
 				</StyledText.Body1>
-				<View>
-					<Icon name="caret-down" size={16} color={color || placeholderColor} />
+				<View style={{ marginLeft: 10 }}>
+					<MaterialIcons name="keyboard-arrow-down" size={20} color={iconColor || color || placeholderColor} />
 				</View>
 			</TouchableOpacity>
 			{pickerVisible && (
-				<Modal transparent visible animationType="none">
+				<Modal transparent visible animationType="none" supportedOrientations={['portrait', 'landscape']}>
 					<TouchableWithoutFeedback onPress={onDone}>
 						<View style={styles.outerContainer}></View>
 					</TouchableWithoutFeedback>
@@ -126,9 +133,10 @@ const StyledSelect = props => {
 							style={styles.pickerStyle}
 							selectedValue={selected}
 							itemStyle={styles.pickerItemStyle}
-							onValueChange={value =>
-								enableActionOnValueChange ? performActionOnValueChange(value) : setSelected(value)
-							}
+							onValueChange={value => {
+								const parsedValue = value && value !== 'null' ? value : null;
+								enableActionOnValueChange ? performActionOnValueChange(parsedValue) : setSelected(parsedValue);
+							}}
 						>
 							{noPlaceholder ? null : renderPlaceholder()}
 							{renderItems()}
@@ -195,6 +203,7 @@ StyledSelect.propTypes = {
 	value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	meta: PropTypes.any,
 	onValueChange: PropTypes.func.isRequired,
+	onDonePress: PropTypes.func,
 	enableActionOnValueChange: PropTypes.bool,
 	enabled: PropTypes.bool,
 	height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -208,5 +217,8 @@ StyledSelect.propTypes = {
 	placeholderBold: PropTypes.bool,
 	fontSize: PropTypes.number,
 	placeholder: PropTypes.string,
-	noPlaceholder: PropTypes.bool
+	noPlaceholder: PropTypes.bool,
+	containerStyle: PropTypes.object,
+	touchableStyle: PropTypes.object,
+	iconColor: PropTypes.string
 };

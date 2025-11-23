@@ -26,7 +26,6 @@ import Colors from '../constants/Colors';
 import Styles from '../constants/Styles';
 import LoadingIndicator from '../components/LoadingIndicator';
 import { ButtonText } from '../components/StyledText';
-import ThemeSelect from '../components/ThemeSelect';
 import { getCharacters, getCharacterQualities } from '../utils/apiHandler';
 
 const stickyColumns = [
@@ -52,7 +51,6 @@ const DataScreen = () => {
 	const theme = themeSelector(userSession);
 	// state hooks
 	// useState utilizes the current state and a function that updates it
-	const [characterData, setCharacterData] 					= useState([]);
 	const [qualitiesData, setQualitiesData] 					= useState([]);
 	const [loading, setLoading] 								= useState(false);
 	const [stickySortConfig, setStickySortConfig] 				= useState(defaultSortConfig);
@@ -63,9 +61,7 @@ const DataScreen = () => {
 	useEffect(() => {
 		(async () => {
 			setLoading(true);
-			let response = await getCharacters();
-			setCharacterData(response.data.characters);
-			response = await getCharacterQualities();
+			const response = await getCharacterQualities();
 			// console.log('response', response.data.qualities);
 			setQualitiesData(response.data.qualities);
 			setLoading(false);
@@ -92,11 +88,7 @@ const DataScreen = () => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<ThemeSelect
-				characterData={characterData}
-				setLoading={setLoading}
-			/>
-			<View
+			{/* <View
 				style={{ marginTop: 15, width: '95%' }}>
 				<DoubleCard
 					backCardElevation={5}
@@ -115,9 +107,9 @@ const DataScreen = () => {
 						textElement={<ButtonText style={{ marginRight: 10 }} buttonTextColor={Colors[theme].buttonColor}>Scan</ButtonText>}
 					/>
 				</DoubleCard>
-			</View>
+			</View> */}
 			<View
-				style={{ marginTop: 30, marginBottom: 30, height: 180, width: '95%' }}>
+				style={{ marginBottom: 30, height: 180, width: '95%' }}>
 				<StickyColumnTable
 					data={stickySortedApiData}
 					columns={stickyColumns}
@@ -127,7 +119,7 @@ const DataScreen = () => {
 					headerHeight={40}
 					rowHeight={50}
 					headerTextColor={Colors[theme].buttonTextColor}
-					textColor={Colors[theme].tintColor}
+					textColor={Colors[theme].textColor}
 					defaultSortConfig={defaultSortConfig}
 					borderRadius={Styles[theme].borderRadius}
 					headerBackgroundColor={Colors[theme].tintColor}

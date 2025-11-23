@@ -1,14 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-	TouchableOpacity,
-	Platform,
-	Text
-} from 'react-native';
+import { TouchableOpacity, Platform, Text } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Layout from './constants/Layout';
 
-
-const SortColumn = (props) => {
+const SortColumn = props => {
 	const {
 		column,
 		i,
@@ -24,14 +20,19 @@ const SortColumn = (props) => {
 		borderColor = 'transparent',
 		textColor = '#fff',
 		textActiveColor = '#fff',
+		fontWeight = 'bold',
 		screenWidth,
+		textStyle,
 		cellContainerStyle
 	} = props;
 
+	const SCREEN_WIDTH = screenWidth || Layout.window.width;
+
 	const commonTextStyle = {
-		fontWeight: 'bold',
+		fontWeight: fontWeight,
 		maxHeight: height,
-		color: textColor
+		color: textColor,
+		...textStyle
 	};
 
 	const commonViewStyle = {
@@ -71,7 +72,6 @@ const SortColumn = (props) => {
 		borderColor: Platform.OS === 'ios' ? undefined : borderColor
 	};
 
-
 	/**
 	 * Getter for text styles.
 	 *
@@ -86,13 +86,13 @@ const SortColumn = (props) => {
 		const baseStyle = active ? activeTextStyle : commonTextStyle;
 
 		return {
-			...baseStyle,
 			width,
 			flexDirection: 'row',
 			backgroundColor: 'transparent',
 			borderTopLeftRadius: borderRadiusLeft,
 			borderTopRightRadius: borderRadiusRight,
-			textAlign: align || 'center'
+			textAlign: align || 'center',
+			...baseStyle
 		};
 	}
 
@@ -108,9 +108,9 @@ const SortColumn = (props) => {
 	 */
 	function getViewStyle(active, width, i, length) {
 		const baseStyle = active ? activeViewStyle : commonViewStyle;
-		const leftBorderStyleObj =  i === 0  ? leftBorderStyle : undefined;
-		const rightBorderStyleObj =  i === length -1 ? rightBorderStyle : undefined;
-		const middleBorderStyleObj =  i > 0 && i < length - 1 ? middleBorderStyle : undefined;
+		const leftBorderStyleObj = i === 0 ? leftBorderStyle : undefined;
+		const rightBorderStyleObj = i === length - 1 ? rightBorderStyle : undefined;
+		const middleBorderStyleObj = i > 0 && i < length - 1 ? middleBorderStyle : undefined;
 
 		return {
 			...baseStyle,
@@ -130,25 +130,19 @@ const SortColumn = (props) => {
 
 	return (
 		<TouchableOpacity
-			style={getViewStyle(isSorted, column.width * screenWidth, i, columnCount)}
+			style={getViewStyle(isSorted, column.width * SCREEN_WIDTH, i, columnCount)}
 			key={sortKey}
 			onPress={() => {
-				!noSort  &&
-				onSortChange({
-					key: sortKey,
-					direction: !isSorted ? 'asc' : (
-						sortConfig.direction === 'asc' ? 'desc' : 'asc'
-					)
-				});
+				!noSort &&
+					onSortChange({
+						key: sortKey,
+						direction: !isSorted ? 'asc' : sortConfig.direction === 'asc' ? 'desc' : 'asc'
+					});
 			}}
 		>
-			{column.icon && <FontAwesome5
-				key={sortKey}
-				name={column.icon}
-				size={20}
-				color={textColor}
-				style={{ marginLeft: 10 }}
-			/>}
+			{column.icon && (
+				<FontAwesome5 key={sortKey} name={column.icon} size={20} color={textColor} style={{ marginLeft: 10 }} />
+			)}
 
 			{column.label ? <Text
 				style={[
@@ -160,7 +154,7 @@ const SortColumn = (props) => {
 			</Text> : null }
 			
 
-			{ isSorted && sortConfig.direction === 'asc' ?
+			{isSorted && sortConfig.direction === 'asc' ? (
 				<FontAwesome5
 					key={sortKey + '2'}
 					name="chevron-up"
@@ -168,8 +162,10 @@ const SortColumn = (props) => {
 					color={sortIndicatorColor}
 					style={{ marginLeft: 1 }}
 				/>
-				: false}
-			{ isSorted && sortConfig.direction === 'desc' ?
+			) : (
+				false
+			)}
+			{isSorted && sortConfig.direction === 'desc' ? (
 				<FontAwesome5
 					key={sortKey + '3'}
 					name="chevron-down"
@@ -177,7 +173,9 @@ const SortColumn = (props) => {
 					color={sortIndicatorColor}
 					style={{ marginLeft: 1 }}
 				/>
-				: false}
+			) : (
+				false
+			)}
 		</TouchableOpacity>
 	);
 };
@@ -187,9 +185,8 @@ SortColumn.propTypes = {
 		key: PropTypes.any.isRequired,
 		sortKey: PropTypes.string,
 		align: PropTypes.string,
-		// Node can be string, React element, or anything renderable.
 		label: PropTypes.node,
-		width: PropTypes.node.isRequired,
+		width: PropTypes.number.isRequired,
 		icon: PropTypes.node,
 		textAlign: PropTypes.node
 	}),
@@ -203,19 +200,18 @@ SortColumn.propTypes = {
 	borderRadiusLeft: PropTypes.number,
 	borderRadiusRight: PropTypes.number,
 	noSort: PropTypes.bool,
-	height: PropTypes.oneOfType([
-		PropTypes.string,
-		PropTypes.number
-	]),
+	height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	sortIndicatorColor: PropTypes.string,
 	tintColor: PropTypes.string,
 	columnCount: PropTypes.number,
 	selectedColor: PropTypes.string,
 	borderColor: PropTypes.string,
 	textColor: PropTypes.string,
+	fontWeight: PropTypes.string,
 	textActiveColor: PropTypes.string,
 	screenWidth: PropTypes.number,
-	cellContainerStyle: PropTypes.object
+	cellContainerStyle: PropTypes.object,
+	textStyle: PropTypes.object
 };
 
 export default SortColumn;

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
 	View,
-	TouchableNativeFeedback,
+	TouchableWithoutFeedback,
 	Text,
 	Platform
 } from 'react-native';
@@ -78,7 +78,7 @@ const Button = (props) => {
 		elevation: 1
 	};
 
-	const Component = (disabled || !allowInteraction) ? View : TouchableNativeFeedback;
+	const Component = (disabled || !allowInteraction) ? View : TouchableWithoutFeedback;
 
 	return (
 		<Component onPress={(disabled || !allowInteraction) ? undefined : () => onPress()} style={buttonStyle }>

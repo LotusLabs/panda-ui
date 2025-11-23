@@ -13,7 +13,12 @@ function ButtonGroup(props) {
 		labelColor,
 		labelColorSelected,
 		labelSize,
-		buttonWidth
+		buttonWidth,
+		isbuttonSeparator = true,
+		fontWeight = '600',
+		selectedIndexHight = 30,
+		customButtonStyle,
+		buttonContainerStyle
 	} = props;
 
 	const lastIndex = buttonLabels.length - 1;
@@ -38,18 +43,23 @@ function ButtonGroup(props) {
 					key={labelValue.value}
 					style={[
 						styles.buttonContainer,
-						buttonSeparator,
+						isbuttonSeparator && buttonSeparator,
 						{ width: buttonWidth || 'auto' },
 						(index === 0 || selectedIndex === index) && styles.buttonRadiusLeft,
 						(lastIndex === index || selectedIndex === index) && styles.buttonRadiusRight,
-						selectedIndex === index && { height: 30, backgroundColor: buttonGroupSelectedBackgroundColor || 'pink' }
+						selectedIndex === index && {
+							height: selectedIndexHight,
+							backgroundColor: buttonGroupSelectedBackgroundColor || 'pink'
+						},
+						customButtonStyle
 					]}
 					onPress={() => onSelect(index)}
 				>
 					<Text
 						style={{
 							fontSize: labelSize || 14,
-							color: textColor || 'black'
+							color: textColor || 'black',
+							fontWeight: fontWeight
 						}}
 					>
 						{labelValue.label}
@@ -69,7 +79,8 @@ function ButtonGroup(props) {
 				styles.container,
 				styles.buttonRadiusLeft,
 				styles.buttonRadiusRight,
-				{ backgroundColor: buttonGroupBackgroundColor || 'salmon' }
+				{ backgroundColor: buttonGroupBackgroundColor || 'salmon' },
+				buttonContainerStyle
 			]}
 		>
 			{renderButtons()}
@@ -102,13 +113,20 @@ const styles = StyleSheet.create({
 ButtonGroup.propTypes = {
 	selectIndex: PropTypes.func,
 	selectedIndex: PropTypes.number,
-	buttonBackgroundColor: PropTypes.string,
 	buttonGroupBackgroundColor: PropTypes.string,
 	buttonGroupSelectedBackgroundColor: PropTypes.string,
 	buttonLabels: PropTypes.array,
 	labelColor: PropTypes.string,
 	labelSize: PropTypes.number,
-	buttonWidth: PropTypes.number
+	buttonWidth: PropTypes.number,
+	buttonGroupSeparatorColor: PropTypes.string,
+	labelColorSelected: PropTypes.string,
+	selectedIndexHight: PropTypes.number,
+	buttonSeparator: PropTypes.object,
+	buttonContainerStyle: PropTypes.object,
+	customButtonStyle: PropTypes.object,
+	isbuttonSeparator: PropTypes.bool,
+	fontWeight: PropTypes.string
 };
 
 export default ButtonGroup;

@@ -6,45 +6,42 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 // Panda Imports
 import {
 	Button,
-	DoubleCard
+	DoubleCard,
+	Picker
 } from 'react-native-panda-ui';
 
-import StyledSelect from '../components/StyledSelect';
-import { ButtonText } from '../components/StyledText';
+import { ButtonText } from './StyledText';
 import Colors from '../constants/Colors';
 import Styles from '../constants/Styles';
 import {
 	useThemeContext,
 	themeSelector,
-	baseThemeSelector
+	baseThemeSelector,
+	characterSelector
 } from '../contexts/ThemeContext';
-import { getCharacterQualities } from '../utils/apiHandler';
+import { getCharacters } from '../utils/apiHandler';
+import Layout from '../constants/Layout';
 
-const ThemeSelect = ({ characterData, setLoading, setQualitiesData }) => {
+const ThemeSelect = () => {
 	const [userSession, dispatch] = useThemeContext();
 	const theme = themeSelector(userSession);
 	const baseTheme = baseThemeSelector(userSession);
-	const [character, setCharacter]	= useState({ id: '0', animal: '', theme: theme });
+	const character = characterSelector(userSession);
+	const [characterData, setCharacterData] = useState([]);
 
 	const updateTheme = async () => {
-		setLoading(true);
-		dispatch({ type: 'SET_THEME', payload: { theme: character.theme } });
-		const response = character.id  > 0 && await getCharacterQualities(character.id);
-		// console.log(response);
-		setQualitiesData && setQualitiesData(response);
-		setLoading(false);
+		dispatch({ type: 'SET_THEME', payload: { id: character.id, animal: character.animal, theme: character.theme } });
 	};
 
 	useEffect(() => {
-		// updater function form
-		setCharacter((previousCharacter) => ({
-			...previousCharacter,
-			theme
-		}));
-	}, [theme]);
+		(async () => {
+			const charData = await getCharacters();
+			setCharacterData(charData.data.characters);
+		})();
+	}, []);
 
 	return (
-		<View style={{ height: 100, width: '95%', marginVertical: 15 }}>
+		<View style={{ height: 100, width: '95%', marginVertical: Layout.screen.width > 360 ? 15 : 5 }}>
 			<DoubleCard
 				backCardElevation={5}
 				cardElevation={8}
@@ -56,12 +53,13 @@ const ThemeSelect = ({ characterData, setLoading, setQualitiesData }) => {
 			>
 				<View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
 					<View style={{ borderWidth: Styles[theme].accentBorderWidth, borderColor: Colors[theme].borderColor, borderRadius: Styles[theme].borderRadius, marginRight: 8, width: '60%' }}>
-						<StyledSelect
+						<Picker
+							placeholderBold
 							onValueChange={(itemValue, itemIndex) => {
-								setCharacter({ id: characterData[itemIndex -1]?.id, animal: characterData[itemIndex -1]?.animal, theme: itemValue });
+								itemIndex && dispatch({ type: 'SET_THEME', payload: { id: characterData[itemIndex]?.id, animal: characterData[itemIndex]?.animal, theme: itemValue } });
 							}}
 							items={
-								characterData && characterData.map((c, i) => {
+								characterData.map((c, i) => {
 									return {
 										label: c.animal,
 										value: c.theme,
@@ -69,6 +67,7 @@ const ThemeSelect = ({ characterData, setLoading, setQualitiesData }) => {
 									};
 								})
 							}
+							width="100%"
 							selectedValue={baseTheme}
 							value={character.theme}
 							validationErrorColor={Colors[theme].validationError}
@@ -78,7 +77,7 @@ const ThemeSelect = ({ characterData, setLoading, setQualitiesData }) => {
 					</View>
 					<View style={{ justifyContent: 'center', alignItems: 'center' }}>
 						<Button
-							//label="APPLY"
+							// label="APPLY"
 							iconElement={<FontAwesome5 name="search" size={15} color={Colors[theme].buttonTextColor} />}
 							textElement={<ButtonText buttonTextColor={Colors[theme].buttonTextColor}>APPLY</ButtonText>}
 							onPress={() => updateTheme()}

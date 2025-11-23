@@ -7,7 +7,8 @@ import {
 import SortColumn from './SortColumn';
 import Layout from './constants/Layout';
 
-const SortHeader = (props) => {
+
+const SortHeader = props => {
 	const {
 		screenWidth,
 		columns,
@@ -23,8 +24,11 @@ const SortHeader = (props) => {
 		selectedColor = '#a34e76',
 		borderColor = 'transparent',
 		textColor = '#fff',
+		fontWeight,
+		textActiveColor,
 		headerContainerStyle,
-		cellContainerStyle
+		cellContainerStyle,
+		textStyle
 	} = props;
 
 	const SCREEN_WIDTH = screenWidth || Layout.window.width;
@@ -57,8 +61,11 @@ const SortHeader = (props) => {
 						borderColor={borderColor}
 						selectedColor={selectedColor}
 						textColor={textColor}
+						fontWeight={fontWeight}
+						textActiveColor={textActiveColor}
 						screenWidth={SCREEN_WIDTH}
 						cellContainerStyle={cellContainerStyle}
+						textStyle={textStyle}
 					/>
 				);
 			})}
@@ -67,11 +74,17 @@ const SortHeader = (props) => {
 };
 
 SortHeader.propTypes = {
-	columns: PropTypes.arrayOf(PropTypes.shape({
-		key: PropTypes.any.isRequired,
-		// Node can be string, React element, or anything renderable.
-		label: PropTypes.node.isRequired
-	})),
+	columns: PropTypes.arrayOf(
+		PropTypes.shape({
+			key: PropTypes.any.isRequired,
+			sortKey: PropTypes.string,
+			align: PropTypes.string,
+			label: PropTypes.node,
+			width: PropTypes.number.isRequired,
+			icon: PropTypes.node,
+			textAlign: PropTypes.node
+		})
+	),
 	sortConfig: PropTypes.exact({
 		key: PropTypes.any.isRequired,
 		direction: PropTypes.oneOf(['asc', 'desc']).isRequired
@@ -81,13 +94,7 @@ SortHeader.propTypes = {
 	borderRadiusLeft: PropTypes.number,
 	borderRadiusRight: PropTypes.number,
 	noSort: PropTypes.bool,
-	// solid: PropTypes.bool,
-	// center: PropTypes.bool,
-	// ignoreFirstColumnInSort: PropTypes.bool,
-	height: PropTypes.oneOfType([
-		PropTypes.string,
-		PropTypes.number
-	]),
+	height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	sortIndicatorColor: PropTypes.string,
 	tintColor: PropTypes.string,
 	backgroundColor: PropTypes.string,
@@ -96,7 +103,11 @@ SortHeader.propTypes = {
 	textColor: PropTypes.string,
 	screenWidth: PropTypes.number,
 	headerContainerStyle: PropTypes.object,
-	cellContainerStyle: PropTypes.object
+	cellContainerStyle: PropTypes.object,
+	textStyle: PropTypes.object,
+	fontWeight: PropTypes.string,
+	textActiveColor: PropTypes.string
 };
 
 export default SortHeader;
+
