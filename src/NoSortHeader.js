@@ -4,9 +4,8 @@ import {
 	View
 } from 'react-native';
 
-import Column from './Column';
+import NoSortColumn from './NoSortColumn';
 import Layout from './constants/Layout';
-
 
 const NoSortHeader = props => {
 	const {
@@ -43,7 +42,7 @@ const NoSortHeader = props => {
 		<View style={[rootStyle, headerContainerStyle]}>
 			{columns.map((column, i) => {
 				return (
-					<Column
+					<NoSortColumn
 						key={String(i)}
 						column={column}
 						columnCount={column.length}

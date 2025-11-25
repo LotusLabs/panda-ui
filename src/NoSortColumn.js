@@ -4,7 +4,7 @@ import { View, Platform, Text } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Layout from './constants/Layout';
 
-const Column = props => {
+const NoSortColumn = props => {
 	const {
 		column,
 		i,
@@ -139,7 +139,7 @@ const Column = props => {
 	);
 };
 
-Column.propTypes = {
+NoSortColumn.propTypes = {
 	column: PropTypes.shape({
 		key: PropTypes.any.isRequired,
 		align: PropTypes.string,
@@ -165,4 +165,4 @@ Column.propTypes = {
 	textStyle: PropTypes.object
 };
 
-export default Column;
+export default NoSortColumn;

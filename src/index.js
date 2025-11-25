@@ -26,6 +26,8 @@ import RadioGroup from './RadioGroup';
 import ScanTextInput from './ScanTextInput';
 import SearchBar from './SearchBar';
 import SortColumn from './SortColumn';
+import NoSortColumn from './NoSortColumn';
+import NoSortHeader from './NoSortHeader';
 import SortHeader from './SortHeader';
 import SortHeaderFlex from './SortHeaderFlex';
 import StickyColumnTable from './StickyColumnTable';
@@ -72,6 +74,8 @@ export {
 	RadioGroup,
 	ScanTextInput,
 	SearchBar,
+	NoSortColumn,
+	NoSortHeader,
 	SortColumn,
 	SortHeader,
 	SortHeaderFlex,
