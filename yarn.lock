@@ -4275,22 +4275,13 @@ react-native-anchor-point@^1.0.6:
   resolved "https://registry.yarnpkg.com/react-native-anchor-point/-/react-native-anchor-point-1.0.6.tgz#87226a4079cda6c3914c7d3d6b0a341503f02414"
   integrity sha512-gQWkXwEnTmqBSqCwBqWIzZWY3AxfuThcszbukJcvU9PvJgmKYANaFBKlCIfeyQ47DxzxmLX/3NiRtxwUZf+YKA==
 
-react-native-panda-ui@./react-native-panda-ui-0.3.6.tgz:
-  version "0.3.6"
-  resolved "./react-native-panda-ui-0.3.6.tgz#79d89419dd9658f99b2683aea03ec1b6b9b827b4"
+react-native-panda-ui@./react-native-panda-ui-0.3.8.tgz:
+  version "0.3.8"
+  resolved "./react-native-panda-ui-0.3.8.tgz#83639f9052d4fc51c88adda18baa661af96c9594"
   dependencies:
     chroma "^0.0.1"
     react-error-boundary "^3.1.3"
     react-native-anchor-point "^1.0.6"
-
-react-native-panda-ui@./react-native-panda-ui-0.3.7.tgz:
-  version "0.3.7"
-  resolved "./react-native-panda-ui-0.3.7.tgz#c7977a5cc73d30cbe066cfbc4efe424ecb8e2d5a"
-  dependencies:
-    chroma "^0.0.1"
-    react-error-boundary "^3.1.3"
-    react-native-anchor-point "^1.0.6"
-    react-native-panda-ui "./react-native-panda-ui-0.3.6.tgz"
 
 react-native@^0.74.5:
   version "0.74.7"
