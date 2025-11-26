@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
 	inputContainer: {
 		width: '100%',
 		height: 45,
-		zIndex: -1,
+		// zIndex: -1,
 		paddingHorizontal: 10,
 		borderWidth: 1,
 		borderRadius: 8,
