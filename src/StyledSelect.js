@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, TouchableOpacity, Dimensions, Modal, TouchableWithoutFeedback } from 'react-native';
+import {
+	StyleSheet,
+	View,
+	TouchableOpacity,
+	Dimensions,
+	Modal,
+	TouchableWithoutFeedback,
+	Platform
+} from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { MaterialIcons } from '@expo/vector-icons';
 import chroma from 'chroma-js';
 import PropTypes from 'prop-types';
 import * as StyledText from './StyledText';
-
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 const SCREEN_WIDTH = Dimensions.get('window').width;
-
 const StyledSelect = props => {
 	const {
 		items,
@@ -28,19 +35,16 @@ const StyledSelect = props => {
 		touchableStyle,
 		iconColor
 	} = props;
-
 	const [selected, setSelected] = useState(value);
 	const [pickerVisible, setPickerVisible] = useState(false);
-
+	const insets = useSafeAreaInsets();
 	useEffect(() => {
 		setSelected(value);
 	}, [value]);
-
 	const performActionOnValueChange = value => {
 		onValueChange(value);
 		setSelected(value);
 	};
-
 	const RNPickerWrapper = {
 		borderBottomWidth: separatorColor ? 1 : 0,
 		borderBottomColor: separatorColor,
@@ -51,9 +55,7 @@ const StyledSelect = props => {
 		alignItems: 'flex-start',
 		...containerStyle
 	};
-
 	const placeholderColor = chroma.contrast(backgroundColor, '#fff') > 5 ? '#fff' : '#000';
-
 	// get label
 	const renderValueLabel = () => {
 		// if value is set, loop items to find label
@@ -65,30 +67,34 @@ const StyledSelect = props => {
 		}
 		return placeholder || '';
 	};
-
 	const togglePicker = () => {
 		setPickerVisible(prev => !prev);
 	};
-
 	const renderPlaceholder = () => {
 		if (placeholder) {
 			return <Picker.Item label={placeholder} value={null} />;
 		}
 		return null;
 	};
-
 	const renderItems = () => {
 		return items.map(item => {
 			return <Picker.Item key={item.value} label={item.label} value={item.value} />;
 		});
 	};
-
 	const onDone = () => {
 		onValueChange(selected);
 		setPickerVisible(false);
 		onDonePress(selected);
 	};
-
+	const androidBottomPadding = Platform.OS === 'android' ? insets.bottom : 0;
+	const pickerContainerStyle = [
+		styles.pickerContainer,
+		Platform.OS === 'android' && {
+			zIndex: 999,
+			elevation: 999,
+			bottom: androidBottomPadding
+		}
+	];
 	return (
 		<View style={RNPickerWrapper}>
 			<TouchableOpacity
@@ -123,7 +129,7 @@ const StyledSelect = props => {
 					<TouchableWithoutFeedback onPress={onDone}>
 						<View style={styles.outerContainer}></View>
 					</TouchableWithoutFeedback>
-					<View style={styles.pickerContainer}>
+					<View style={pickerContainerStyle}>
 						<View style={styles.doneBarContainer}>
 							<TouchableOpacity style={styles.doneBarButton} onPress={onDone}>
 								<StyledText.Body1 style={styles.doneBarText}>Done</StyledText.Body1>
@@ -147,7 +153,6 @@ const StyledSelect = props => {
 		</View>
 	);
 };
-
 const styles = StyleSheet.create({
 	outerContainer: {
 		flex: 1
@@ -194,9 +199,7 @@ const styles = StyleSheet.create({
 		color: 'rgb(0, 122, 255)'
 	}
 });
-
 export default StyledSelect;
-
 StyledSelect.propTypes = {
 	items: PropTypes.array,
 	label: PropTypes.string,
