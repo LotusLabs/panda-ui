@@ -1,6 +1,6 @@
 {
 	"name": "react-native-panda-ui",
-	"version": "0.3.11",
+	"version": "0.3.12",
 	"description": "A set of easily styled components to get you started fast",
 	"main": "src/index.js",
 	"files": [
@@ -31,6 +31,7 @@
 		"react": "^18.2.0",
 		"react-native": "^0.74.5",
 		"react-native-elements": "3.4.2",
+		"react-native-reanimated": ">=3.0.0",
 		"react-native-svg": "^12.3.0",
 		"react-native-safe-area-context": "^5.6.2",
 		"react-native-vector-icons": "8.1.0"
