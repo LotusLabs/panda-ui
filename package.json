@@ -1,6 +1,6 @@
 {
 	"name": "react-native-panda-ui",
-	"version": "0.3.12",
+	"version": "0.3.13",
 	"description": "A set of easily styled components to get you started fast",
 	"main": "src/index.js",
 	"files": [
@@ -26,15 +26,13 @@
 		"react-native-anchor-point": "^1.0.6"
 	},
 	"peerDependencies": {
-		"@react-native-picker/picker": "^2.11.4",
 		"prop-types": "15.7.2",
 		"react": "^18.2.0",
 		"react-native": "^0.74.5",
 		"react-native-elements": "3.4.2",
 		"react-native-reanimated": ">=3.0.0",
 		"react-native-svg": "^12.3.0",
-		"react-native-safe-area-context": "^5.6.2",
-		"react-native-vector-icons": "8.1.0"
+		"react-native-safe-area-context": "^5.7.0"
 	},
 	"devDependencies": {
 		"@babel/core": "~7.9.0",

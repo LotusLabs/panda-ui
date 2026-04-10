@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TextInput, View } from 'react-native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 import Card from './Card';
 
@@ -98,7 +98,7 @@ const CounterInput = props => {
 								marginTop: margin
 							}}
 						>
-							<FontAwesome5 size={iconSize} name="minus" color={decrementTextColor} />
+							<FontAwesome size={iconSize} name="minus" color={decrementTextColor} />
 						</View>
 					</Card>
 				</Card>
@@ -124,7 +124,7 @@ const CounterInput = props => {
 							justifyContent: 'center'
 						}}
 					>
-						<FontAwesome5 size={iconSize} name="minus" color={decrementTextColor} />
+						<FontAwesome size={iconSize} name="minus" color={decrementTextColor} />
 					</View>
 				</Card>
 			)}
@@ -183,7 +183,7 @@ const CounterInput = props => {
 								marginTop: margin
 							}}
 						>
-							<FontAwesome5 size={iconSize} name="plus" color={incrementTextColor} />
+							<FontAwesome size={iconSize} name="plus" color={incrementTextColor} />
 						</View>
 					</Card>
 				</Card>
@@ -209,7 +209,7 @@ const CounterInput = props => {
 							justifyContent: 'center'
 						}}
 					>
-						<FontAwesome5 size={iconSize} name="plus" color={incrementTextColor} />
+						<FontAwesome size={iconSize} name="plus" color={incrementTextColor} />
 					</View>
 				</Card>
 			)}

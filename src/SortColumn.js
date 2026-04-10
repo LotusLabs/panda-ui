@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Platform, Text } from 'react-native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Layout from './constants/Layout';
 
 const SortColumn = props => {
@@ -141,7 +141,7 @@ const SortColumn = props => {
 			}}
 		>
 			{column.icon && (
-				<FontAwesome5 key={sortKey} name={column.icon} size={20} color={textColor} style={{ marginLeft: 10 }} />
+				<FontAwesome key={sortKey} name={column.icon} size={20} color={textColor} style={{ marginLeft: 10 }} />
 			)}
 
 			{column.label ? <Text
@@ -155,7 +155,7 @@ const SortColumn = props => {
 			
 
 			{isSorted && sortConfig.direction === 'asc' ? (
-				<FontAwesome5
+				<FontAwesome
 					key={sortKey + '2'}
 					name="chevron-up"
 					size={12}
@@ -166,7 +166,7 @@ const SortColumn = props => {
 				false
 			)}
 			{isSorted && sortConfig.direction === 'desc' ? (
-				<FontAwesome5
+				<FontAwesome
 					key={sortKey + '3'}
 					name="chevron-down"
 					size={12}

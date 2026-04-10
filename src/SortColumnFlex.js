@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Text } from 'react-native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-
-// import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 const PADDING = 10;
 
@@ -153,7 +151,7 @@ const SortColumnFlex = props => {
 			}}
 		>
 			{
-				// column.icon && <FontAwesome5
+				// column.icon && <FontAwesome
 				// 	key={column.key}
 				// 	name={column.icon}
 				// 	size={20}
@@ -170,7 +168,7 @@ const SortColumnFlex = props => {
 			</Text>
 
 			{isSorted && sortConfig.direction === 'asc' ? (
-				<FontAwesome5
+				<FontAwesome
 					key={sortKey + '2'}
 					name="chevron-up"
 					size={12}
@@ -181,7 +179,7 @@ const SortColumnFlex = props => {
 				false
 			)}
 			{isSorted && sortConfig.direction === 'desc' ? (
-				<FontAwesome5
+				<FontAwesome
 					key={sortKey + '3'}
 					name="chevron-down"
 					size={12}

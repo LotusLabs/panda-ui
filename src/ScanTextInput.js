@@ -7,7 +7,7 @@ import {
 	TouchableOpacity
 } from 'react-native';
 import PropTypes from 'prop-types';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from '@expo/vector-icons/FontAwesome';
 import { useIsFocused } from '@react-navigation/native';
 
 import TextInput from './TextInput';

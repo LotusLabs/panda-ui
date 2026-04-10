@@ -5,7 +5,7 @@ import {
 	TouchableOpacity,
 	Text
 } from 'react-native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Layout from './constants/Layout';
 
 const SortHeader = (props) => {
@@ -171,7 +171,7 @@ const SortHeader = (props) => {
 							});
 						}}
 					>
-						{column.icon && <FontAwesome5
+						{column.icon && <FontAwesome
 							key={sortKey}
 							name={column.icon}
 							size={20}
@@ -187,7 +187,7 @@ const SortHeader = (props) => {
 						</TextComponent>
 
 						{ isSorted && sortConfig.direction === 'asc' ?
-							<FontAwesome5
+							<FontAwesome
 								key={sortKey + '2'}
 								name="chevron-up"
 								size={12}
@@ -196,7 +196,7 @@ const SortHeader = (props) => {
 							/>
 							: false}
 						{ isSorted && sortConfig.direction === 'desc' ?
-							<FontAwesome5
+							<FontAwesome
 								key={sortKey + '3'}
 								name="chevron-down"
 								size={12}

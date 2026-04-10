@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 import { SvgCss } from 'react-native-svg';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 import openFrownPanda from './assets/images/openFrownPanda.svg';
 import _openFrownPanda from './assets/images/_openFrownPanda.svg';
@@ -56,7 +56,7 @@ export default function Feedback({ theme = 'fontAwesome', rating, setRating, sty
 							{ rating: 5, color: '#2eb733', icon: 'grin' }
 						].map(value => (
 							<TouchableOpacity onPress={() => setRating(value.rating)} key={value.rating}>
-								<FontAwesome5
+								<FontAwesome
 									style={{
 										width: '100%',
 										flexDirection: 'row',

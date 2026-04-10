@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Platform, Text } from 'react-native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Layout from './constants/Layout';
 
 const NoSortColumn = props => {
@@ -125,7 +125,7 @@ const NoSortColumn = props => {
 			style={getViewStyle(false, column.width * SCREEN_WIDTH, i, columnCount)}
 		>
 			{column.icon && (
-				<FontAwesome5 name={column.icon} size={20} color={textColor} style={{ marginLeft: 10 }} />
+				<FontAwesome name={column.icon} size={20} color={textColor} style={{ marginLeft: 10 }} />
 			)}
 
 			{column.label ? <Text

@@ -43,7 +43,6 @@ import BasicImage from './BasicImage';
 import StyledSwitch from './StyledSwitch';
 import LastRefreshedTimeClock from './LastRefreshedTimeClock';
 import FlatListEmpty from './FlatListEmpty';
-import CustomSelectPicker from './CustomSelectPicker';
 import { PickerSheetProvider, usePickerSheet } from './contexts/PickerSheetContext';
 
 // Note Styled Select and Text are not intended to be used in Panda.
@@ -102,7 +101,6 @@ export {
 	LastRefreshedTimeClock,
 	StyledSwitch,
 	FlatListEmpty,
-	CustomSelectPicker,
 	PickerSheetProvider,
 	usePickerSheet
 };
