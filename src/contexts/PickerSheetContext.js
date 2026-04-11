@@ -20,7 +20,7 @@ import {
 	TouchableOpacity
 } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import Animated, { Easing, runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const SHEET_OPEN_MS = 280;
@@ -55,17 +55,26 @@ export function PickerSheetProvider({
 	const openIdRef = useRef(0);
 	const measuredSheetHeightRef = useRef(0);
 	const sheetOpeningAnimatedRef = useRef(false);
+	const dismissTimerRef = useRef(null);
 	const [headerHeight, setHeaderHeight] = useState(SHEET_HEADER_FALLBACK);
 
-	const finishDismiss = useCallback(() => {
-		const snap = layerRef.current;
-		const onDismiss = snap?.onDismiss;
-		dismissingRef.current = false;
-		setLayer(null);
-		onDismiss?.();
+	const clearDismissTimer = useCallback(() => {
+		if (!dismissTimerRef.current) return;
+		clearTimeout(dismissTimerRef.current);
+		dismissTimerRef.current = null;
 	}, []);
 
-	const dismissAnimated = useCallback(() => {
+	const finishDismiss = useCallback(expectedOpenId => {
+		const snap = layerRef.current;
+		if (!snap || snap.openId !== expectedOpenId) return;
+		const onDismiss = snap?.onDismiss;
+		dismissingRef.current = false;
+		clearDismissTimer();
+		setLayer(null);
+		onDismiss?.();
+	}, [clearDismissTimer]);
+
+	const dismissAnimated = useCallback(currentLayer => {
 		const current = layerRef.current;
 		if (!current) return;
 		const h = current.dynamicHeight
@@ -74,15 +83,18 @@ export function PickerSheetProvider({
 				: current.sheetMaxHeight
 			: current.sheetHeight;
 		backdropOpacity.value = withTiming(0, { duration: SHEET_CLOSE_MS, easing: Easing.out(Easing.cubic) });
-		sheetTranslateY.value = withTiming(h, { duration: SHEET_CLOSE_MS, easing: Easing.in(Easing.cubic) }, done => {
-			if (done) runOnJS(finishDismiss)();
-		});
-	}, [backdropOpacity, sheetTranslateY, finishDismiss]);
+		sheetTranslateY.value = withTiming(h, { duration: SHEET_CLOSE_MS, easing: Easing.in(Easing.cubic) });
+		clearDismissTimer();
+		dismissTimerRef.current = setTimeout(() => {
+			finishDismiss(currentLayer.openId);
+		}, SHEET_CLOSE_MS + 24);
+	}, [backdropOpacity, sheetTranslateY, finishDismiss, clearDismissTimer]);
 
 	const dismiss = useCallback(() => {
-		if (!layerRef.current || dismissingRef.current) return;
+		const currentLayer = layerRef.current;
+		if (!currentLayer || dismissingRef.current) return;
 		dismissingRef.current = true;
-		dismissAnimated();
+		dismissAnimated(currentLayer);
 	}, [dismissAnimated]);
 
 	const present = useCallback(
@@ -119,6 +131,7 @@ export function PickerSheetProvider({
 			dismissingRef.current = false;
 			sheetOpeningAnimatedRef.current = false;
 			measuredSheetHeightRef.current = 0;
+			clearDismissTimer();
 			return;
 		}
 		if (layer.dynamicHeight) {
@@ -132,12 +145,9 @@ export function PickerSheetProvider({
 		const h = layer.sheetHeight;
 		sheetTranslateY.value = h;
 		backdropOpacity.value = 0;
-		const t = requestAnimationFrame(() => {
-			sheetTranslateY.value = withTiming(0, { duration: SHEET_OPEN_MS, easing: Easing.out(Easing.cubic) });
-			backdropOpacity.value = withTiming(1, { duration: SHEET_OPEN_MS, easing: Easing.out(Easing.cubic) });
-		});
-		return () => cancelAnimationFrame(t);
-	}, [layer, sheetTranslateY, backdropOpacity]);
+		sheetTranslateY.value = withTiming(0, { duration: SHEET_OPEN_MS, easing: Easing.out(Easing.cubic) });
+		backdropOpacity.value = withTiming(1, { duration: SHEET_OPEN_MS, easing: Easing.out(Easing.cubic) });
+	}, [layer, sheetTranslateY, backdropOpacity, clearDismissTimer]);
 
 	const onDynamicSheetLayout = useCallback(
 		e => {
@@ -148,10 +158,8 @@ export function PickerSheetProvider({
 			if (sheetOpeningAnimatedRef.current) return;
 			sheetOpeningAnimatedRef.current = true;
 			sheetTranslateY.value = h;
-			requestAnimationFrame(() => {
-				sheetTranslateY.value = withTiming(0, { duration: SHEET_OPEN_MS, easing: Easing.out(Easing.cubic) });
-				backdropOpacity.value = withTiming(1, { duration: SHEET_OPEN_MS, easing: Easing.out(Easing.cubic) });
-			});
+			sheetTranslateY.value = withTiming(0, { duration: SHEET_OPEN_MS, easing: Easing.out(Easing.cubic) });
+			backdropOpacity.value = withTiming(1, { duration: SHEET_OPEN_MS, easing: Easing.out(Easing.cubic) });
 		},
 		[layer, sheetTranslateY, backdropOpacity]
 	);
@@ -164,6 +172,8 @@ export function PickerSheetProvider({
 		});
 		return () => sub.remove();
 	}, [layer, dismiss]);
+
+	useEffect(() => () => clearDismissTimer(), [clearDismissTimer]);
 
 	const backdropStyle = useAnimatedStyle(() => ({
 		opacity: backdropOpacity.value
@@ -257,12 +267,12 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 	overlayRoot: {
-		...StyleSheet.absoluteFillObject,
+		...StyleSheet.absoluteFill,
 		justifyContent: 'flex-end',
 		zIndex: 100000
 	},
 	backdrop: {
-		...StyleSheet.absoluteFillObject,
+		...StyleSheet.absoluteFill,
 		backgroundColor: 'rgba(0,0,0,0.5)'
 	},
 	sheet: {

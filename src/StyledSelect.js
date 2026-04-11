@@ -1,227 +1,275 @@
-import React, { useState, useEffect } from 'react';
-import {
-	StyleSheet,
-	View,
-	TouchableOpacity,
-	Dimensions,
-	Modal,
-	TouchableWithoutFeedback,
-	Platform
-} from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import React, { useCallback, useMemo } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Pressable, Image } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import chroma from 'chroma-js';
-import PropTypes from 'prop-types';
 import * as StyledText from './StyledText';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-const SCREEN_WIDTH = Dimensions.get('window').width;
-const StyledSelect = props => {
-	const {
-		items,
-		value,
-		onValueChange,
-		enableActionOnValueChange,
-		width,
-		height = 40,
-		separatorColor,
-		backgroundColor = '#fff',
-		color,
-		placeholderBold,
-		fontSize,
-		placeholder,
-		noPlaceholder,
-		onDonePress = () => {},
-		containerStyle,
-		touchableStyle,
-		iconColor
-	} = props;
-	const [selected, setSelected] = useState(value);
-	const [pickerVisible, setPickerVisible] = useState(false);
-	const insets = useSafeAreaInsets();
-	useEffect(() => {
-		setSelected(value);
-	}, [value]);
-	const performActionOnValueChange = value => {
-		onValueChange(value);
-		setSelected(value);
-	};
-	const RNPickerWrapper = {
-		borderBottomWidth: separatorColor ? 1 : 0,
-		borderBottomColor: separatorColor,
-		overflow: 'hidden',
-		width: width,
-		height: height,
-		justifyContent: 'center',
-		alignItems: 'flex-start',
-		...containerStyle
-	};
-	const placeholderColor = chroma.contrast(backgroundColor, '#fff') > 5 ? '#fff' : '#000';
-	// get label
-	const renderValueLabel = () => {
-		// if value is set, loop items to find label
-		if (value) {
-			const item = items.find(item => item.value === value);
-			if (item !== undefined) {
-				return item.label;
-			}
+import { usePickerSheet } from './contexts/PickerSheetContext';
+
+const SELECT_NEXT_DEFAULTS = {
+	placeholderColor: '#22282F',
+	color: '#22282F',
+	iconColor: '#3C7378',
+	borderColor: '#D8D8D8',
+	backgroundColor: '#fff',
+	borderRadius: 8,
+	fontSize: 14,
+	height: 45,
+	width: 175,
+	paddingHorizontal: 10,
+	iconSize: 20
+};
+
+const RESET_ITEM_KEY = '__customPickerReset';
+
+function valuesEqual(a, b) {
+	if (a === b) return true;
+	if (a == null || b == null) return false;
+	return String(a) === String(b);
+}
+
+function normalizeItems(items) {
+	if (!items?.length) return [];
+	return items.map(item => {
+		if (item != null && typeof item === 'object' && 'label' in item && 'value' in item) {
+			return { label: String(item.label), value: item.value };
 		}
-		return placeholder || '';
-	};
-	const togglePicker = () => {
-		setPickerVisible(prev => !prev);
-	};
-	const renderPlaceholder = () => {
-		if (placeholder) {
-			return <Picker.Item label={placeholder} value={null} />;
+		return { label: String(item), value: item };
+	});
+}
+
+function listKeyExtractor(item, index) {
+	return item.key === RESET_ITEM_KEY ? RESET_ITEM_KEY : `${String(item.value)}-${index}`;
+}
+
+function CustomSelectPicker({
+	items = [],
+	value,
+	onValueChange,
+	onDonePress,
+	placeholder = 'Select',
+	placeholderBold = false,
+	title,
+	disabled = false,
+	sheetHeightFraction = 0.5,
+	style,
+	anchorStyle,
+	textStyle,
+	width = SELECT_NEXT_DEFAULTS.width,
+	autoWidth = false,
+	placeholderColor = SELECT_NEXT_DEFAULTS.placeholderColor,
+	color = SELECT_NEXT_DEFAULTS.color,
+	iconColor = SELECT_NEXT_DEFAULTS.iconColor,
+	borderColor = SELECT_NEXT_DEFAULTS.borderColor,
+	backgroundColor = SELECT_NEXT_DEFAULTS.backgroundColor,
+	borderRadius = SELECT_NEXT_DEFAULTS.borderRadius,
+	fontSize = SELECT_NEXT_DEFAULTS.fontSize,
+	height = SELECT_NEXT_DEFAULTS.height,
+	paddingHorizontal = SELECT_NEXT_DEFAULTS.paddingHorizontal,
+	separatorColor,
+	border = true,
+	noBorder = false,
+	containerStyle,
+	touchableStyle,
+	placeholderAsResetOption = true,
+	showResetOption = false,
+	resetValue = null,
+	resetLabel,
+	rightIconSource,
+	iconSize = SELECT_NEXT_DEFAULTS.iconSize,
+	iconWidth = 16,
+	iconHeight = 16,
+	rightIconStyle,
+	itemPressedBackgroundColor,
+	itemSelectedBackgroundColor,
+	testID
+}) {
+	const { present, dismiss, defaultItemPressedBackgroundColor, defaultItemSelectedBackgroundColor } = usePickerSheet();
+	const normalized = useMemo(() => normalizeItems(items), [items]);
+	const selectedItem = useMemo(() => normalized.find(row => valuesEqual(row.value, value)), [normalized, value]);
+
+	const listItems = useMemo(() => {
+		// Keep legacy StyledSelect behavior: placeholder is selectable and resets value.
+		if (placeholderAsResetOption && placeholder) {
+			const label = resetLabel != null ? String(resetLabel) : String(placeholder);
+			return [{ label, value: resetValue, key: RESET_ITEM_KEY }, ...normalized];
 		}
-		return null;
-	};
-	const renderItems = () => {
-		return items.map(item => {
-			return <Picker.Item key={item.value} label={item.label} value={item.value} />;
+		if (showResetOption) {
+			const label = resetLabel != null ? String(resetLabel) : 'Reset';
+			return [{ label, value: resetValue, key: RESET_ITEM_KEY }, ...normalized];
+		}
+		return normalized;
+	}, [placeholderAsResetOption, placeholder, showResetOption, normalized, resetLabel, resetValue]);
+
+	const isAutoWidth = autoWidth || width === 'auto';
+	const hasBorder = noBorder ? false : border;
+
+	const displayLabel = selectedItem?.label ?? (placeholder || '');
+	const headerTitle = title ?? placeholder;
+	const anchorTextColor = selectedItem ? color : placeholderColor;
+	const iconTint = iconColor || anchorTextColor || placeholderColor;
+	const rowPressedBgColor =
+		itemPressedBackgroundColor || defaultItemPressedBackgroundColor || separatorColor || `${iconTint}22`;
+	const rowSelectedBgColor =
+		itemSelectedBackgroundColor || defaultItemSelectedBackgroundColor || separatorColor || `${iconTint}22`;
+
+	const flatTextStyle = useMemo(() => {
+		if (textStyle == null) return {};
+		return StyleSheet.flatten(textStyle) || {};
+	}, [textStyle]);
+	const anchorFontSize = flatTextStyle.fontSize != null ? flatTextStyle.fontSize : fontSize;
+	const anchorLabelColor = flatTextStyle.color != null ? flatTextStyle.color : anchorTextColor;
+
+	const onPick = useCallback(
+		item => {
+			dismiss();
+			onValueChange?.(item.value, item);
+			onDonePress?.(item.value);
+		},
+		[dismiss, onValueChange, onDonePress]
+	);
+
+	const renderRow = useCallback(
+		({ item }) => {
+			const sel =
+				item.key === RESET_ITEM_KEY
+					? valuesEqual(value, resetValue)
+					: Boolean(selectedItem && valuesEqual(item.value, selectedItem.value));
+			return (
+				<Pressable
+					style={({ pressed }) => [
+						styles.row,
+						{ borderBottomColor: borderColor },
+						pressed && { backgroundColor: rowPressedBgColor },
+						sel && { backgroundColor: rowSelectedBgColor }
+					]}
+					onPress={() => onPick(item)}
+				>
+					<Text style={[styles.rowLabel, { color }, sel && { color: iconColor, fontWeight: '600' }]}>{item.label}</Text>
+				</Pressable>
+			);
+		},
+		[selectedItem, value, resetValue, onPick, borderColor, iconColor, color, rowPressedBgColor, rowSelectedBgColor]
+	);
+
+	const wrapperStyle = useMemo(
+		() => ({
+			...(isAutoWidth ? { alignSelf: 'flex-start', overflow: 'visible' } : { width, overflow: 'hidden' }),
+			height,
+			justifyContent: 'center',
+			alignItems: 'center',
+			backgroundColor,
+			borderWidth: hasBorder ? 1 : 0,
+			borderColor: hasBorder ? borderColor : color,
+			paddingHorizontal: 0,
+			borderRadius,
+			borderBottomWidth: hasBorder ? 1 : 0,
+			borderBottomColor: separatorColor
+		}),
+		[
+			isAutoWidth,
+			width,
+			height,
+			backgroundColor,
+			hasBorder,
+			borderColor,
+			color,
+			borderRadius,
+			separatorColor
+		]
+	);
+
+	const openSheet = useCallback(() => {
+		if (disabled) return;
+		present({
+			title: headerTitle,
+			sheetHeightFraction,
+			scrollable: true,
+			accentColor: iconColor,
+			children: (
+				<View style={styles.list}>
+					{listItems.map((item, index) => (
+						<React.Fragment key={listKeyExtractor(item, index)}>{renderRow({ item })}</React.Fragment>
+					))}
+				</View>
+			)
 		});
-	};
-	const onDone = () => {
-		onValueChange(selected);
-		setPickerVisible(false);
-		onDonePress(selected);
-	};
-	const androidBottomPadding = Platform.OS === 'android' ? insets.bottom : 0;
-	const pickerContainerStyle = [
-		styles.pickerContainer,
-		Platform.OS === 'android' && {
-			zIndex: 999,
-			elevation: 999,
-			bottom: androidBottomPadding
-		}
-	];
+	}, [disabled, present, headerTitle, sheetHeightFraction, iconColor, listItems, renderRow]);
+
 	return (
-		<View style={RNPickerWrapper}>
+		<View style={[wrapperStyle, containerStyle, style]} testID={testID}>
 			<TouchableOpacity
-				onPress={togglePicker}
+				activeOpacity={0.7}
+				disabled={disabled}
+				onPress={openSheet}
 				style={[
 					{
-						width,
+						...(isAutoWidth ? { alignSelf: 'flex-start' } : { width }),
 						height,
-						paddingHorizontal: 10,
+						paddingHorizontal,
 						flexDirection: 'row',
 						alignItems: 'center',
 						justifyContent: 'space-between'
 					},
-					touchableStyle
+					disabled && styles.anchorDisabled,
+					touchableStyle,
+					anchorStyle
 				]}
 			>
-				<StyledText.Body1
+				<StyledText.Body2
 					style={{
-						color: color || placeholderColor,
-						fontWeight: placeholderBold ? 'bold' : 'normal',
-						fontSize
+						...(isAutoWidth ? styles.anchorLabelAuto : {}),
+						fontWeight: !selectedItem && placeholderBold ? 'bold' : 'normal',
+						...textStyle
 					}}
+					fontSize={anchorFontSize}
+					textColor={anchorLabelColor}
 				>
-					{renderValueLabel()}
-				</StyledText.Body1>
-				<View style={{ marginLeft: 10 }}>
-					<MaterialIcons name="keyboard-arrow-down" size={20} color={iconColor || color || placeholderColor} />
+					{displayLabel}
+				</StyledText.Body2>
+				<View style={styles.iconChevronWrap}>
+					{rightIconSource ? (
+						<Image
+							source={rightIconSource}
+							style={[
+								styles.icon,
+								{ width: iconWidth || 20, height: iconHeight || 20, tintColor: iconTint },
+								rightIconStyle
+							]}
+							resizeMode="contain"
+						/>
+					) : (
+						<MaterialIcons name="keyboard-arrow-down" size={iconSize} color={iconTint} />
+					)}
 				</View>
 			</TouchableOpacity>
-			{pickerVisible && (
-				<Modal transparent visible animationType="none" supportedOrientations={['portrait', 'landscape']}>
-					<TouchableWithoutFeedback onPress={onDone}>
-						<View style={styles.outerContainer}></View>
-					</TouchableWithoutFeedback>
-					<View style={pickerContainerStyle}>
-						<View style={styles.doneBarContainer}>
-							<TouchableOpacity style={styles.doneBarButton} onPress={onDone}>
-								<StyledText.Body1 style={styles.doneBarText}>Done</StyledText.Body1>
-							</TouchableOpacity>
-						</View>
-						<Picker
-							style={styles.pickerStyle}
-							selectedValue={selected}
-							itemStyle={styles.pickerItemStyle}
-							onValueChange={value => {
-								const parsedValue = value && value !== 'null' ? value : null;
-								enableActionOnValueChange ? performActionOnValueChange(parsedValue) : setSelected(parsedValue);
-							}}
-						>
-							{noPlaceholder ? null : renderPlaceholder()}
-							{renderItems()}
-						</Picker>
-					</View>
-				</Modal>
-			)}
 		</View>
 	);
-};
+}
+
 const styles = StyleSheet.create({
-	outerContainer: {
-		flex: 1
+	anchorLabelAuto: {
+		flexShrink: 0,
+		flexGrow: 0
 	},
-	container: {
-		width: 150,
-		height: 70
+	anchorDisabled: {
+		opacity: 0.5
 	},
-	textStyle: {
-		fontSize: 20,
-		color: 'black'
+	iconChevronWrap: {
+		marginLeft: 10
 	},
-	pickerContainer: {
-		position: 'absolute',
-		bottom: 0,
-		width: SCREEN_WIDTH
+	icon: {
+		flexShrink: 0
 	},
-	pickerStyle: {
-		width: '100%',
-		// height: 180,
-		marginTop: 0,
-		marginBottom: 0,
-		backgroundColor: 'rgb(209, 212, 217)'
+	list: {
+		paddingVertical: 8
 	},
-	pickerItemStyle: {
-		paddingTop: 0,
-		paddingBottom: 0,
-		height: 160,
-		fontSize: 22
+	row: {
+		paddingVertical: 14,
+		paddingHorizontal: 20,
+		borderBottomWidth: StyleSheet.hairlineWidth
 	},
-	doneBarContainer: {
-		height: 44,
-		width: '100%',
-		backgroundColor: 'rgb(248, 248, 248)',
-		alignItems: 'flex-end',
-		paddingHorizontal: 10,
-		justifyContent: 'center',
-		borderTopWidth: 1,
-		borderTopColor: 'lightgrey'
-	},
-	doneBarText: {
-		fontSize: 20,
-		fontWeight: 'normal',
-		color: 'rgb(0, 122, 255)'
+	rowLabel: {
+		fontSize: 16
 	}
 });
-export default StyledSelect;
-StyledSelect.propTypes = {
-	items: PropTypes.array,
-	label: PropTypes.string,
-	value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-	meta: PropTypes.any,
-	onValueChange: PropTypes.func.isRequired,
-	onDonePress: PropTypes.func,
-	enableActionOnValueChange: PropTypes.bool,
-	enabled: PropTypes.bool,
-	height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-	width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-	input: PropTypes.any,
-	rest: PropTypes.any,
-	separatorColor: PropTypes.string,
-	validationErrorColor: PropTypes.string,
-	backgroundColor: PropTypes.string,
-	color: PropTypes.string,
-	placeholderBold: PropTypes.bool,
-	fontSize: PropTypes.number,
-	placeholder: PropTypes.string,
-	noPlaceholder: PropTypes.bool,
-	containerStyle: PropTypes.object,
-	touchableStyle: PropTypes.object,
-	iconColor: PropTypes.string
-};
+
+export default CustomSelectPicker;
