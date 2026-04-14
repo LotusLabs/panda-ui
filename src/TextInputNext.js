@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { Platform, StyleSheet, TextInput, View } from 'react-native';
 import PropTypes from 'prop-types';
 import TouchableIcon from './TouchableIcon';
 
@@ -107,6 +107,9 @@ const styles = StyleSheet.create({
 		height: 45,
 		// zIndex: -1,
 		paddingHorizontal: 10,
+		paddingVertical: Platform.OS === 'android' ? 0 : undefined,
+		textAlignVertical: Platform.OS === 'android' ? 'center' : undefined,
+		includeFontPadding: Platform.OS === 'android' ? false : undefined,
 		borderWidth: 1,
 		borderRadius: 8,
 		borderColor: '#D8D8D8'
