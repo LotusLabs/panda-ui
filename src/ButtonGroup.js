@@ -55,15 +55,18 @@ function ButtonGroup(props) {
 					]}
 					onPress={() => onSelect(index)}
 				>
-					<Text
-						style={{
-							fontSize: labelSize || 14,
-							color: textColor || 'black',
-							fontWeight: fontWeight
-						}}
-					>
-						{labelValue.label}
-					</Text>
+					<View style={styles.labelContainer}>
+						<Text
+							style={{
+								fontSize: labelSize || 14,
+								color: textColor || 'black',
+								fontWeight: fontWeight
+							}}
+						>
+							{labelValue.label}
+						</Text>
+						{labelValue.badgeLabel ? labelValue.badgeLabel : null}
+					</View>
 				</TouchableOpacity>
 			);
 		});
@@ -100,6 +103,10 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center'
 	},
+	labelContainer: {
+		flexDirection: 'row',
+		alignItems: 'center'
+	},
 	buttonRadiusLeft: {
 		borderTopLeftRadius: 7,
 		borderBottomLeftRadius: 7
@@ -126,7 +133,8 @@ ButtonGroup.propTypes = {
 	buttonContainerStyle: PropTypes.object,
 	customButtonStyle: PropTypes.object,
 	isbuttonSeparator: PropTypes.bool,
-	fontWeight: PropTypes.string
+	fontWeight: PropTypes.string,
+	showBadgeLabel: PropTypes.bool
 };
 
 export default ButtonGroup;

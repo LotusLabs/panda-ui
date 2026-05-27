@@ -19,6 +19,7 @@ const SELECT_NEXT_DEFAULTS = {
 };
 
 const RESET_ITEM_KEY = '__customPickerReset';
+const PICKER_ROW_HEIGHT = 49;
 
 function valuesEqual(a, b) {
 	if (a === b) return true;
@@ -99,6 +100,14 @@ function CustomSelectPicker({
 		return normalized;
 	}, [placeholderAsResetOption, placeholder, showResetOption, normalized, resetLabel, resetValue]);
 
+	const selectedIndex = useMemo(() => {
+		const idx = listItems.findIndex(item => {
+			if (item.key === RESET_ITEM_KEY) return valuesEqual(value, resetValue);
+			return Boolean(selectedItem && valuesEqual(item.value, selectedItem.value));
+		});
+		return idx >= 0 ? idx : 0;
+	}, [listItems, value, resetValue, selectedItem]);
+
 	const isAutoWidth = autoWidth || width === 'auto';
 	const hasBorder = noBorder ? false : border;
 
@@ -164,17 +173,7 @@ function CustomSelectPicker({
 			borderBottomWidth: hasBorder ? 1 : 0,
 			borderBottomColor: separatorColor
 		}),
-		[
-			isAutoWidth,
-			width,
-			height,
-			backgroundColor,
-			hasBorder,
-			borderColor,
-			color,
-			borderRadius,
-			separatorColor
-		]
+		[isAutoWidth, width, height, backgroundColor, hasBorder, borderColor, color, borderRadius, separatorColor]
 	);
 
 	const openSheet = useCallback(() => {
@@ -182,8 +181,8 @@ function CustomSelectPicker({
 		present({
 			title: headerTitle,
 			sheetHeightFraction,
-			scrollable: true,
 			accentColor: iconColor,
+			initialScrollOffset: selectedIndex > 0 ? selectedIndex * PICKER_ROW_HEIGHT : undefined,
 			children: (
 				<View style={styles.list}>
 					{listItems.map((item, index) => (
@@ -192,7 +191,7 @@ function CustomSelectPicker({
 				</View>
 			)
 		});
-	}, [disabled, present, headerTitle, sheetHeightFraction, iconColor, listItems, renderRow]);
+	}, [disabled, present, headerTitle, sheetHeightFraction, iconColor, listItems, renderRow, selectedIndex]);
 
 	return (
 		<View style={[wrapperStyle, containerStyle, style]} testID={testID}>
