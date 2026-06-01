@@ -44,7 +44,7 @@ import StyledSwitch from './StyledSwitch';
 import LastRefreshedTimeClock from './LastRefreshedTimeClock';
 import FlatListEmpty from './FlatListEmpty';
 import { PickerSheetProvider, usePickerSheet } from './contexts/PickerSheetContext';
-import { CacheQueueContextProvider } from './contexts/PickerSheetContext';
+import { CacheQueueContextProvider, CacheQueueContext } from './contexts/CacheQueueContext';
 
 // Note Styled Select and Text are not intended to be used in Panda.
 // These files should be implemented in your code with your fonts, etc
@@ -103,6 +103,7 @@ export {
 	StyledSwitch,
 	FlatListEmpty,
 	CacheQueueContextProvider,
+	CacheQueueContext,
 	PickerSheetProvider,
 	usePickerSheet
 };
