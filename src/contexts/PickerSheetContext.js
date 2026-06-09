@@ -56,6 +56,7 @@ export function PickerSheetProvider({
 	const measuredSheetHeightRef = useRef(0);
 	const sheetOpeningAnimatedRef = useRef(false);
 	const dismissTimerRef = useRef(null);
+	const scrollRef = useRef(null);
 	const [headerHeight, setHeaderHeight] = useState(SHEET_HEADER_FALLBACK);
 
 	const clearDismissTimer = useCallback(() => {
@@ -64,31 +65,37 @@ export function PickerSheetProvider({
 		dismissTimerRef.current = null;
 	}, []);
 
-	const finishDismiss = useCallback(expectedOpenId => {
-		const snap = layerRef.current;
-		if (!snap || snap.openId !== expectedOpenId) return;
-		const onDismiss = snap?.onDismiss;
-		dismissingRef.current = false;
-		clearDismissTimer();
-		setLayer(null);
-		onDismiss?.();
-	}, [clearDismissTimer]);
+	const finishDismiss = useCallback(
+		expectedOpenId => {
+			const snap = layerRef.current;
+			if (!snap || snap.openId !== expectedOpenId) return;
+			const onDismiss = snap?.onDismiss;
+			dismissingRef.current = false;
+			clearDismissTimer();
+			setLayer(null);
+			onDismiss?.();
+		},
+		[clearDismissTimer]
+	);
 
-	const dismissAnimated = useCallback(currentLayer => {
-		const current = layerRef.current;
-		if (!current) return;
-		const h = current.dynamicHeight
-			? measuredSheetHeightRef.current > 0
-				? measuredSheetHeightRef.current
-				: current.sheetMaxHeight
-			: current.sheetHeight;
-		backdropOpacity.value = withTiming(0, { duration: SHEET_CLOSE_MS, easing: Easing.out(Easing.cubic) });
-		sheetTranslateY.value = withTiming(h, { duration: SHEET_CLOSE_MS, easing: Easing.in(Easing.cubic) });
-		clearDismissTimer();
-		dismissTimerRef.current = setTimeout(() => {
-			finishDismiss(currentLayer.openId);
-		}, SHEET_CLOSE_MS + 24);
-	}, [backdropOpacity, sheetTranslateY, finishDismiss, clearDismissTimer]);
+	const dismissAnimated = useCallback(
+		currentLayer => {
+			const current = layerRef.current;
+			if (!current) return;
+			const h = current.dynamicHeight
+				? measuredSheetHeightRef.current > 0
+					? measuredSheetHeightRef.current
+					: current.sheetMaxHeight
+				: current.sheetHeight;
+			backdropOpacity.value = withTiming(0, { duration: SHEET_CLOSE_MS, easing: Easing.out(Easing.cubic) });
+			sheetTranslateY.value = withTiming(h, { duration: SHEET_CLOSE_MS, easing: Easing.in(Easing.cubic) });
+			clearDismissTimer();
+			dismissTimerRef.current = setTimeout(() => {
+				finishDismiss(currentLayer.openId);
+			}, SHEET_CLOSE_MS + 24);
+		},
+		[backdropOpacity, sheetTranslateY, finishDismiss, clearDismissTimer]
+	);
 
 	const dismiss = useCallback(() => {
 		const currentLayer = layerRef.current;
@@ -105,7 +112,8 @@ export function PickerSheetProvider({
 			sheetHeightFraction = 0.5,
 			accentColor,
 			onDismiss,
-			dynamicHeight
+			dynamicHeight,
+			initialScrollOffset
 		}) => {
 			const fr = clampSheetFraction(sheetHeightFraction);
 			const sheetMaxHeight = Math.round(windowHeight * fr);
@@ -120,7 +128,8 @@ export function PickerSheetProvider({
 				sheetMaxHeight,
 				dynamicHeight: useDynamic,
 				accentColor: accentColor ?? '#195A9A',
-				onDismiss
+				onDismiss,
+				initialScrollOffset: initialScrollOffset > 0 ? initialScrollOffset : undefined
 			});
 		},
 		[windowHeight]
@@ -227,12 +236,17 @@ export function PickerSheetProvider({
 							</View>
 							{layer.scrollable ? (
 								<ScrollView
+									ref={scrollRef}
 									keyboardShouldPersistTaps="handled"
 									style={[
 										layer.dynamicHeight ? styles.scrollDynamic : styles.scroll,
 										layer.dynamicHeight && { maxHeight: maxContentHeight }
 									]}
 									contentContainerStyle={[styles.scrollContent, layer.dynamicHeight && styles.scrollContentDynamic]}
+									onContentSizeChange={() => {
+										const y = layer.initialScrollOffset;
+										if (y > 0) scrollRef.current?.scrollTo({ y, animated: false });
+									}}
 								>
 									{layer.children}
 								</ScrollView>
