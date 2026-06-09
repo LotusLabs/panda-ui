@@ -18,7 +18,9 @@ function ButtonGroup(props) {
 		fontWeight = '600',
 		selectedIndexHight = 30,
 		customButtonStyle,
-		buttonContainerStyle
+		buttonContainerStyle,
+		badgeBackgroundColor = 'rgba(0, 0, 0, 0.1)',
+		badgeTextColor
 	} = props;
 
 	const lastIndex = buttonLabels.length - 1;
@@ -65,7 +67,13 @@ function ButtonGroup(props) {
 						>
 							{labelValue.label}
 						</Text>
-						{labelValue.badgeLabel ? labelValue.badgeLabel : null}
+						{labelValue.badgeCount !== undefined ? (
+							<View style={[styles.badgeContainer, { backgroundColor: badgeBackgroundColor }]}>
+								<Text style={[styles.badgeText, { color: badgeTextColor || labelColor || 'black' }]}>
+									{labelValue.badgeCount}
+								</Text>
+							</View>
+						) : null}
 					</View>
 				</TouchableOpacity>
 			);
@@ -107,6 +115,19 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center'
 	},
+	badgeContainer: {
+		minWidth: 22,
+		height: 22,
+		marginLeft: 5,
+		paddingHorizontal: 6,
+		borderRadius: 11,
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
+	badgeText: {
+		fontSize: 12,
+		fontWeight: '600'
+	},
 	buttonRadiusLeft: {
 		borderTopLeftRadius: 7,
 		borderBottomLeftRadius: 7
@@ -134,7 +155,8 @@ ButtonGroup.propTypes = {
 	customButtonStyle: PropTypes.object,
 	isbuttonSeparator: PropTypes.bool,
 	fontWeight: PropTypes.string,
-	showBadgeLabel: PropTypes.bool
+	badgeBackgroundColor: PropTypes.string,
+	badgeTextColor: PropTypes.string
 };
 
 export default ButtonGroup;
