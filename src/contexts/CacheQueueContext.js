@@ -12,7 +12,8 @@ export const CacheQueueContextProvider = ({ children, storageKey = 'CACHE_QUEUE'
 
 	const createQueueItem = payload => ({
 		id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-		payload,
+		type: payload.type,
+		payload: payload.payload,
 		createdAt: Date.now(),
 		retryCount: 0
 	});
