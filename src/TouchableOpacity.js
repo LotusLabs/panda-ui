@@ -3,12 +3,13 @@ import { Pressable } from 'react-native';
 import PropTypes from 'prop-types';
 
 function TouchableOpacity(props) {
-	const { onPress, style, children, disabled = false } = props;
+	const { onPress, style, children, disabled = false, forwardTestID } = props;
 	return (
 		<Pressable
 			{...props}
 			disabled={disabled}
 			style={({ pressed }) => [style, { opacity: pressed ? 0.5 : 1 }]}
+			testID={forwardTestID}
 			onPress={onPress}
 		>
 			{children}
@@ -22,5 +23,6 @@ TouchableOpacity.propTypes = {
 	onPress: PropTypes.func,
 	style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 	disabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
-	children: PropTypes.oneOfType([PropTypes.element.isRequired, PropTypes.func, PropTypes.array])
+	children: PropTypes.oneOfType([PropTypes.element.isRequired, PropTypes.func, PropTypes.array]),
+	forwardTestID: PropTypes.string
 };

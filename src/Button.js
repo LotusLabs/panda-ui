@@ -33,7 +33,7 @@ const Button = props => {
 		disabledTextColor = '#fff',
 		textElement,
 		iconElement,
-		testID
+		forwardTestID
 	} = props;
 
 	warning(
@@ -82,7 +82,7 @@ const Button = props => {
 		<Component
 			onPress={disabled || !allowInteraction ? undefined : () => onPress()}
 			style={buttonStyle}
-			testID={testID}
+			testID={forwardTestID}
 		>
 			{gradient && gradient.length > 1 ? (
 				Platform.OS === 'ios' ? (
@@ -237,7 +237,7 @@ Button.propTypes = {
 	iconElement: PropTypes.object,
 	gradient: PropTypes.array,
 	disabledGradient: PropTypes.array,
-	testID: PropTypes.string
+	forwardTestID: PropTypes.string
 };
 
 export default Button;

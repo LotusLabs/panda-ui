@@ -14,10 +14,10 @@ const TouchableIcon = ({
 	resizeMode = 'contain',
 	resizeMethod = 'scale',
 	opacity = 1,
-	testID
+	forwardTestID
 }) => {
 	return (
-		<TouchableOpacity onPress={onPress} onLongPress={onLongPress} style={touchableStyle} testID={testID}>
+		<TouchableOpacity onPress={onPress} onLongPress={onLongPress} style={touchableStyle} forwardTestID={forwardTestID}>
 			<Image
 				source={source}
 				style={{ height, width, ...imageStyle }}
@@ -42,5 +42,5 @@ TouchableIcon.propTypes = {
 	resizeMode: PropTypes.string,
 	resizeMethod: PropTypes.string,
 	opacity: PropTypes.number,
-	testID: PropTypes.string
+	forwardTestID: PropTypes.string
 };

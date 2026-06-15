@@ -35,7 +35,7 @@ function TextInputNext(props) {
 		iconWidth = 20,
 		innerRef,
 		textAlignVertical,
-		testID
+		forwardTestID
 	} = props;
 
 	return (
@@ -77,7 +77,7 @@ function TextInputNext(props) {
 				disableFullscreenUI={disableFullscreenUI}
 				autoCapitalize={autoCapitalize}
 				keyboardType={keyboardType}
-				testID={testID}
+				testID={forwardTestID}
 			/>
 			{rightIconSource && (
 				<TouchableIcon
@@ -151,5 +151,5 @@ TextInputNext.propTypes = {
 	iconWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({ current: PropTypes.any })]),
 	textAlignVertical: PropTypes.string,
-	testID: PropTypes.string
+	forwardTestID: PropTypes.string
 };

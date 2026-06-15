@@ -81,7 +81,7 @@ function CustomSelectPicker({
 	rightIconStyle,
 	itemPressedBackgroundColor,
 	itemSelectedBackgroundColor,
-	testID
+	forwardTestID
 }) {
 	const { present, dismiss, defaultItemPressedBackgroundColor, defaultItemSelectedBackgroundColor } = usePickerSheet();
 	const normalized = useMemo(() => normalizeItems(items), [items]);
@@ -194,11 +194,12 @@ function CustomSelectPicker({
 	}, [disabled, present, headerTitle, sheetHeightFraction, iconColor, listItems, renderRow, selectedIndex]);
 
 	return (
-		<View style={[wrapperStyle, containerStyle, style]} testID={testID}>
+		<View style={[wrapperStyle, containerStyle, style]}>
 			<TouchableOpacity
 				activeOpacity={0.7}
 				disabled={disabled}
 				onPress={openSheet}
+				testID={forwardTestID}
 				style={[
 					{
 						...(isAutoWidth ? { alignSelf: 'flex-start' } : { width }),
