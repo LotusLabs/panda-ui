@@ -1,14 +1,27 @@
-import React, { createContext, useCallback, useEffect, useRef, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useState } from 'react';
 
 export const CacheQueueContext = createContext();
 
 export const CacheQueueContextProvider = ({ children, storageKey = 'CACHE_QUEUE', getItem, setItem }) => {
 	const [queue, setQueue] = useState([]);
-	const queueRef = useRef([]);
+	const [isLoaded, setIsLoaded] = useState(false);
+
+	const loadQueue = useCallback(async () => {
+		const savedQueue = await getItem(storageKey);
+		setQueue(Array.isArray(savedQueue) ? savedQueue : []);
+		setIsLoaded(true);
+	}, [getItem, storageKey]);
 
 	useEffect(() => {
 		loadQueue();
 	}, [loadQueue]);
+
+	useEffect(() => {
+		if (!isLoaded) {
+			return;
+		}
+		setItem(storageKey, queue);
+	}, [queue, isLoaded, storageKey, setItem]);
 
 	const createQueueItem = payload => ({
 		id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
@@ -18,67 +31,22 @@ export const CacheQueueContextProvider = ({ children, storageKey = 'CACHE_QUEUE'
 		retryCount: 0
 	});
 
-	const saveQueue = useCallback(
-		async nextQueue => {
-			const data = Array.isArray(nextQueue) ? nextQueue : [];
-			queueRef.current = data;
-			setQueue(data);
-			await setItem(storageKey, data);
-			return data;
-		},
-		[storageKey, setItem]
-	);
+	const addToQueue = useCallback(job => {
+		const item = job?.id && job?.payload ? job : createQueueItem(job);
+		setQueue(prevQueue => [...prevQueue, item]);
+		return item;
+	}, []);
 
-	const loadQueue = useCallback(async () => {
-		const savedQueue = await getItem(storageKey);
-		return saveQueue(savedQueue);
-	}, [saveQueue, storageKey, getItem]);
+	const removeFromQueue = useCallback(itemId => {
+		if (!itemId) {
+			return;
+		}
+		setQueue(prevQueue => prevQueue.filter(item => item.id !== itemId));
+	}, []);
 
-	const addToQueue = useCallback(
-		async job => {
-			let item = job;
-			if (!item?.id || !item?.payload) {
-				item = createQueueItem(job);
-			}
-			await saveQueue([...queueRef.current, item]);
-			return item;
-		},
-		[saveQueue]
-	);
-
-	const removeFromQueue = useCallback(
-		async itemId => {
-			if (!itemId) {
-				return;
-			}
-			await saveQueue(queueRef.current.filter(item => item.id !== itemId));
-		},
-		[saveQueue]
-	);
-
-	const updateInQueue = useCallback(
-		async (itemId, onUpdateQueueItem) => {
-			if (!itemId) {
-				return null;
-			}
-
-			let updatedItem = null;
-			const nextQueue = queueRef.current.map(item => {
-				if (item.id !== itemId) {
-					return item;
-				}
-				updatedItem = onUpdateQueueItem(item);
-				return updatedItem;
-			});
-
-			if (!updatedItem) {
-				return null;
-			}
-			await saveQueue(nextQueue);
-			return updatedItem;
-		},
-		[saveQueue]
-	);
+	const removeManyFromQueue = useCallback(itemIds => {
+		setQueue(prevQueue => prevQueue.filter(item => !itemIds.includes(item.id)));
+	}, []);
 
 	return (
 		<CacheQueueContext.Provider
@@ -86,7 +54,7 @@ export const CacheQueueContextProvider = ({ children, storageKey = 'CACHE_QUEUE'
 				queue,
 				addToQueue,
 				removeFromQueue,
-				updateInQueue
+				removeManyFromQueue
 			}}
 		>
 			{children}
