@@ -1,12 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {
-	View
-} from 'react-native';
+import { View } from 'react-native';
 
 import SortColumn from './SortColumn';
 import Layout from './constants/Layout';
-
 
 const SortHeader = props => {
 	const {
@@ -14,13 +10,16 @@ const SortHeader = props => {
 		columns,
 		sortConfig,
 		onSortChange,
+		filterConfig = {},
+		onFilterChange,
+		filterOptions = {},
 		borderRadius = 0,
 		borderRadiusLeft = borderRadius,
 		borderRadiusRight = borderRadius,
 		noSort = false,
+		defaultSortConfig,
 		sortIndicatorColor = '#4a1830',
-		tintColor = '#772d4f',
-		backgroundColor = tintColor,
+		backgroundColor,
 		selectedColor = '#a34e76',
 		borderColor = 'transparent',
 		textColor = '#fff',
@@ -46,17 +45,22 @@ const SortHeader = props => {
 	return (
 		<View style={[rootStyle, headerContainerStyle]}>
 			{columns.map((column, i) => {
+				const sortKey = column.sortKey ? column.sortKey : column.key;
 				return (
 					<SortColumn
 						key={String(i)}
 						column={column}
-						columnCount={column.length}
+						columnCount={columns.length}
 						i={i}
 						sortConfig={sortConfig}
 						onSortChange={onSortChange}
+						filterValue={filterConfig[sortKey]}
+						onFilterChange={onFilterChange}
+						filterOptions={filterOptions[sortKey] || column.filterOptions}
 						borderRadiusLeft={borderRadiusLeft}
 						borderRadiusRight={borderRadiusRight}
 						noSort={noSort}
+						defaultSortConfig={defaultSortConfig}
 						sortIndicatorColor={sortIndicatorColor}
 						borderColor={borderColor}
 						selectedColor={selectedColor}
@@ -73,41 +77,4 @@ const SortHeader = props => {
 	);
 };
 
-SortHeader.propTypes = {
-	columns: PropTypes.arrayOf(
-		PropTypes.shape({
-			key: PropTypes.any.isRequired,
-			sortKey: PropTypes.string,
-			align: PropTypes.string,
-			label: PropTypes.node,
-			width: PropTypes.number.isRequired,
-			icon: PropTypes.node,
-			textAlign: PropTypes.node
-		})
-	),
-	sortConfig: PropTypes.exact({
-		key: PropTypes.any.isRequired,
-		direction: PropTypes.oneOf(['asc', 'desc']).isRequired
-	}),
-	onSortChange: PropTypes.func.isRequired,
-	borderRadius: PropTypes.number,
-	borderRadiusLeft: PropTypes.number,
-	borderRadiusRight: PropTypes.number,
-	noSort: PropTypes.bool,
-	height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-	sortIndicatorColor: PropTypes.string,
-	tintColor: PropTypes.string,
-	backgroundColor: PropTypes.string,
-	selectedColor: PropTypes.string,
-	borderColor: PropTypes.string,
-	textColor: PropTypes.string,
-	screenWidth: PropTypes.number,
-	headerContainerStyle: PropTypes.object,
-	cellContainerStyle: PropTypes.object,
-	textStyle: PropTypes.object,
-	fontWeight: PropTypes.string,
-	textActiveColor: PropTypes.string
-};
-
 export default SortHeader;
-

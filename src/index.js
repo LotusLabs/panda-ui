@@ -29,6 +29,7 @@ import SortColumn from './SortColumn';
 import NoSortColumn from './NoSortColumn';
 import NoSortHeader from './NoSortHeader';
 import SortHeader from './SortHeader';
+import CommonFilterSortTableHeader from './CommonFilterSortTableHeader';
 import SortHeaderFlex from './SortHeaderFlex';
 import StickyColumnTable from './StickyColumnTable';
 import TabGroup from './TabGroup';
@@ -80,6 +81,7 @@ export {
 	NoSortHeader,
 	SortColumn,
 	SortHeader,
+	CommonFilterSortTableHeader,
 	SortHeaderFlex,
 	StyledText,
 	StyledSelect,

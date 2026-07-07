@@ -31,9 +31,9 @@ function normalizeItems(items) {
 	if (!items?.length) return [];
 	return items.map(item => {
 		if (item != null && typeof item === 'object' && 'label' in item && 'value' in item) {
-			return { label: String(item.label), value: item.value };
+			return { label: String(item.label), value: item.value, renderIcon: item.renderIcon };
 		}
-		return { label: String(item), value: item };
+		return { label: String(item), value: item, renderIcon: null };
 	});
 }
 
@@ -152,6 +152,7 @@ function CustomSelectPicker({
 					]}
 					onPress={() => onPick(item)}
 				>
+					{item.renderIcon && item.renderIcon()}
 					<Text style={[styles.rowLabel, { color }, sel && { color: iconColor, fontWeight: '600' }]}>{item.label}</Text>
 				</Pressable>
 			);
@@ -265,6 +266,9 @@ const styles = StyleSheet.create({
 	row: {
 		paddingVertical: 14,
 		paddingHorizontal: 20,
+		flexDirection: 'row',
+		gap: 4,
+		alignItems: 'center',
 		borderBottomWidth: StyleSheet.hairlineWidth
 	},
 	rowLabel: {
