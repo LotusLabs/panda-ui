@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Pressable, Image } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as StyledText from './StyledText';
@@ -81,7 +81,8 @@ function CustomSelectPicker({
 	rightIconStyle,
 	itemPressedBackgroundColor,
 	itemSelectedBackgroundColor,
-	forwardTestID
+	forwardTestID,
+	onPressOpen
 }) {
 	const { present, dismiss, defaultItemPressedBackgroundColor, defaultItemSelectedBackgroundColor } = usePickerSheet();
 	const normalized = useMemo(() => normalizeItems(items), [items]);
@@ -193,6 +194,13 @@ function CustomSelectPicker({
 			)
 		});
 	}, [disabled, present, headerTitle, sheetHeightFraction, iconColor, listItems, renderRow, selectedIndex]);
+
+	useEffect(() => {
+		if (!onPressOpen) return;
+	
+		onPressOpen(openSheet);
+		return () => onPressOpen(null);
+	}, [onPressOpen, openSheet]);
 
 	return (
 		<View style={[wrapperStyle, containerStyle, style]}>

@@ -73,6 +73,7 @@ const SortColumn = props => {
 
 	const { present, dismiss } = usePickerSheet();
 	const filterSheetTimerRef = useRef(null);
+	const onPressOpenColumnMenuRef = useRef(null);
 
 	useEffect(() => {
 		return () => {
@@ -238,7 +239,7 @@ const SortColumn = props => {
 			title: `Filter by ${column.label}`,
 			dynamicHeight: false,
 			scrollable: false,
-			sheetHeightFraction: filterOptionDropdown ? 0.3 : 0.25,
+			sheetHeightFraction: filterOptionDropdown ? 0.35 : 0.3,
 			accentColor: sortIndicatorColor,
 			children: filterOptionDropdown ? (
 				<ColumnFilterDropdownSheet
@@ -317,7 +318,10 @@ const SortColumn = props => {
 			<TouchableOpacity
 				style={styles.sortTouchable}
 				onPress={() => {
-					const direction = !isSorted || sortConfig.direction === 'desc' ? 'asc' : 'desc';
+					if (isColumnOptions) {
+						onPressOpenColumnMenuRef.current?.();
+						return;
+					}
 					!noSort &&
 						onSortChange({
 							key: sortKey,
@@ -364,11 +368,14 @@ const SortColumn = props => {
 						items={menuItems}
 						value={menuValue}
 						onValueChange={handleMenuSelect}
+						onPressOpen={open => {
+							onPressOpenColumnMenuRef.current = open;
+						}}
 						placeholder=""
 						placeholderAsResetOption={false}
 						noBorder
-						width={24}
-						height={28}
+						width={0}
+						height={0}
 						fontSize={12}
 						backgroundColor="transparent"
 						color={textColor}
@@ -393,6 +400,12 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
+		gap: 2
+	},
+	columnOptionsTouchable: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'flex-start',
 		gap: 2
 	},
 	menuTouchable: {
