@@ -50,7 +50,11 @@ function ColumnFilterDropdownSheet({ options = [], filterValue, onChange, onClea
 									size={18}
 									color={isSelected ? indicatorColor : '#999'}
 								/>
-								<Text style={[styles.optionLabel, isSelected && styles.optionLabelSelected]}>{label}</Text>
+								<Text
+									style={[styles.optionLabel, isSelected && { fontWeight: '600', color: indicatorColor || '#3C7378' }]}
+								>
+									{label}
+								</Text>
 							</Pressable>
 						);
 					})
@@ -101,10 +105,6 @@ const styles = StyleSheet.create({
 		marginLeft: 12,
 		fontSize: 16,
 		color: '#22282F'
-	},
-	optionLabelSelected: {
-		fontWeight: '600',
-		color: '#3C7378'
 	},
 	emptyText: {
 		padding: 20,
